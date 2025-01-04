@@ -22,10 +22,6 @@ public class Genes {
     }
 
     public int getCurrentGene() {
-        return currentGene;
-    }
-
-    public int getCurrentGene(int currentGene) {
         return genes.get(currentGene);
     }
 
