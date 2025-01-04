@@ -28,6 +28,22 @@ public class Genes {
     public int getSize() {
         return size;
     }
+    public void setSize(int size) {
+        this.size = size;
+    }
+    public ArrayList<Integer> getGenes() {
+        return genes;
+    }
+
+    public void addGene(int gene) {
+        genes.add(gene);
+        size += 1;
+    }
+
+    public void setCurrentGene() {
+        Random rand = new Random();
+        this.currentGene = rand.nextInt(size);
+    }
 
     public ArrayList<Integer> getGenes() {
         return genes;
