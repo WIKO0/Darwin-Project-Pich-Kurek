@@ -1,8 +1,10 @@
 package Classes;
 
 import AbstractClasses.AbstractAnimal;
+import EnumClasses.MoveDirections;
 import Interfaces.PositionChangeObserver;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Animal extends AbstractAnimal {
@@ -10,21 +12,23 @@ public class Animal extends AbstractAnimal {
     private final int startEnergy;
     private int numberOfMoves;
     private int age;
-    private int paceOfAging;
-    private int N;
+    private final int paceOfAging;
+    private final int N;
     private int children;
+    private int side;
 
     public Animal(Vector2D pos, int N, int energy,int age, int paceOfAging) {
         this.position = pos;
         this.N=N;
         Random rand = new Random();
-        this.direction = direction.fromRadians(rand.nextInt(8) * 45);
+        this.direction = MoveDirections.fromRadians(rand.nextInt(8) * 45);
         this.genes = new Genes(N);
         this.energy = energy;
         this.numberOfMoves = 0;
         this.paceOfAging = paceOfAging;
         this.startEnergy = energy;
         this.children = 0;
+        this.age = age;
     }
 
     public Animal(Vector2D pos, int energy, Genes parentsGenes, int paceOfAging) {
@@ -33,25 +37,33 @@ public class Animal extends AbstractAnimal {
         this.startEnergy = energy;
         this.numberOfMoves = 0;
         this.age = 0;
-        this.genes = new Genes(numberOfMoves);
+        this.genes = parentsGenes;
         this.paceOfAging = paceOfAging;
         this.N = genes.getSize();
         this.children = 0;
         Random rand = new Random();
-        this.direction = direction.fromRadians(rand.nextInt(8) * 45);
+        this.direction = MoveDirections.fromRadians(rand.nextInt(8) * 45);
     }
 
     public void incrementChild(){
-        children++;
+        this.children++;
+    }
+
+    public int getAge(){
+        return age;
     }
 
     public int getChildren() {
-        return children;
+        return this.children;
+    }
+
+    public Genes getGenes(){
+        return this.genes;
     }
 
     @Override
     public boolean canMove() {
-        numberOfMoves++;
+        this.incrementNumberOfMoves();
         energy -= 1;
         Random rand = new Random();
         int randomNum = rand.nextInt(100);
@@ -62,9 +74,14 @@ public class Animal extends AbstractAnimal {
         return false;
     }
 
+    public void incrementNumberOfMoves() {
+        this.numberOfMoves += 1;
+        this.aging();
+    }
+
     public void aging(){
-        if (numberOfMoves % paceOfAging == 0) {
-            age ++;
+        if (this.numberOfMoves % this.paceOfAging == 0) {
+            this.age ++;
         }
     }
 
@@ -76,11 +93,23 @@ public class Animal extends AbstractAnimal {
         this.energy = energy;
     }
 
+    public void incrementEnergy(int energy) {
+        this.energy = Math.min(startEnergy, energy + this.energy);
+    }
+
     boolean canMate(){
-        if(energy >= startEnergy/2){
+        if(this.energy >= this.startEnergy/2){
             return true;
         }
         return false;
+    }
+
+    public int getSide(){
+        return this.side;
+    }
+
+    public void setSide(int side) {
+        this.side = side;
     }
 
     boolean dominates(Animal rival){
@@ -98,10 +127,7 @@ public class Animal extends AbstractAnimal {
                 else if(children == rival.children){
                     Random rand = new Random();
                     int randomNum = rand.nextInt(2);
-                    if (randomNum == 0){
-                        return true;
-                    }
-                    return false;
+                    return randomNum == 0;
                 }
                 return false;
             }
@@ -109,6 +135,61 @@ public class Animal extends AbstractAnimal {
         }
         return false;
     }
+
+
+    public Genes createOffspringGene(Animal mate){
+        Random rand = new Random();
+        int randomSide = rand.nextInt(2);
+        float energyRatioAnimal = (float) (this.energy) / (this.energy + mate.getEnergy());
+        float energyRatioMate = (float) (mate.getEnergy()) / (mate.getEnergy() + energyRatioAnimal);
+        int n,m;
+        n = (int)(this.genes.getSize() * (energyRatioMate));
+        m = (int)(mate.getGenes().getSize() * (energyRatioMate));
+        int animalGenesSize = this.genes.getSize();
+        int mateGenesSize = mate.getGenes().getSize();
+        Genes newGenes = new Genes();
+        if(this.energy > mate.getEnergy()){
+            if(randomSide == 0){
+                for (int i = 0; i < animalGenesSize; i++) {
+                    newGenes.addGene(this.genes.getGenes().get(i));
+                };
+                for(int j = mateGenesSize; j >= 0; j--){
+                    newGenes.addGene(mate.getGenes().getGenes().get(j));
+                }
+            }
+            else{
+                for(int i = animalGenesSize; i >= 0; i--){
+                    newGenes.addGene(this.genes.getGenes().get(i));
+                }
+                for(int j = 0; j < mateGenesSize; j++){
+                    newGenes.addGene(mate.getGenes().getGenes().get(j));
+                }
+            }
+        }
+        else {
+            if (randomSide == 0) {
+                for (int i = animalGenesSize; i >= 0; i--) {
+                    newGenes.addGene(this.genes.getGenes().get(i));
+                }
+                for (int j = 0; j < mateGenesSize; j++) {
+                    newGenes.addGene(mate.getGenes().getGenes().get(j));
+                }
+            } else {
+                if (randomSide == 0) {
+                    for (int i = 0; i < animalGenesSize; i++) {
+                        newGenes.addGene(this.genes.getGenes().get(i));
+                    }
+                    ;
+                    for (int j = mateGenesSize; j >= 0; j--) {
+                        newGenes.addGene(mate.getGenes().getGenes().get(j));
+                    }
+                }
+
+            }
+        }
+
+        return newGenes;
+    };
 
 
     public Animal copulate(Animal mate){
@@ -149,8 +230,25 @@ public class Animal extends AbstractAnimal {
     };
 
 
+
+
+
+
     @Override
     public void addObserver(PositionChangeObserver observer) {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return energy == animal.energy && startEnergy == animal.startEnergy && numberOfMoves == animal.numberOfMoves && age == animal.age && paceOfAging == animal.paceOfAging && N == animal.N && children == animal.children;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(energy, startEnergy, numberOfMoves, age, paceOfAging, N, children);
     }
 }

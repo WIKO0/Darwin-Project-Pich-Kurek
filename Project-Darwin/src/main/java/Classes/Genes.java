@@ -28,9 +28,7 @@ public class Genes {
     public int getSize() {
         return size;
     }
-    public void setSize(int size) {
-        this.size = size;
-    }
+
     public ArrayList<Integer> getGenes() {
         return genes;
     }
