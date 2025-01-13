@@ -1,12 +1,11 @@
-package AbstractClasses;
+package Classes;
 
-import Classes.Genes;
-import Classes.Vector2D;
+import AbstractClasses.AbstractAnimal;
 import Interfaces.PositionChangeObserver;
 
 import java.util.Random;
 
-public class Animal extends AbstractAnimal{
+public class Animal extends AbstractAnimal {
     private int energy;
     private int numberOfMoves;
     private int age;

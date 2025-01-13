@@ -7,7 +7,7 @@ import Interfaces.MapElement;
 
 
 public abstract class AbstractAnimal implements MapElement {
-    protected  Vector2D position;
+    protected Vector2D position;
     protected Vector2D borderUpperRight;
     protected Vector2D borderLowerLeft;
     protected Genes genes;
