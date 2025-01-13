@@ -10,6 +10,7 @@ public class Genes {
 
     public Genes(int size) {
         this.size = size;
+        this.genes = new ArrayList<>();
         Random rand = new Random();
         for(int i = 0; i < size; i++) {
             genes.add(rand.nextInt(8));
@@ -26,9 +27,7 @@ public class Genes {
     public int getSize() {
         return size;
     }
-    public void setSize(int size) {
-        this.size = size;
-    }
+
     public ArrayList<Integer> getGenes() {
         return genes;
     }
