@@ -6,7 +6,6 @@ import AbstractClasses.AbstractAnimal;
 import EnumClasses.MoveDirections;
 import Interfaces.MapElement;
 import Interfaces.PositionChangeObserver;
-import java.util.Objects;
 import java.util.Random;
 
 public class Animal extends AbstractAnimal {
@@ -20,12 +19,9 @@ public class Animal extends AbstractAnimal {
     private int children;
     private int side;
 
-    public Animal(Vector2D pos, int N, int energy,int age, int paceOfAging) {
         this.position = pos;
         this.N=N;
         Random rand = new Random();
-        this.direction = MoveDirections.fromRadians(rand.nextInt(8) * 45);
-        this.genes = new Genes(N);
         this.energy = energy;
         this.numberOfMoves = 0;
         this.paceOfAging = paceOfAging;
@@ -70,7 +66,6 @@ public class Animal extends AbstractAnimal {
 
     @Override
     public boolean canMove() {
-        this.incrementNumberOfMoves();
         energy -= 1;
         Random rand = new Random();
         int randomNum = rand.nextInt(100);
@@ -95,7 +90,7 @@ public class Animal extends AbstractAnimal {
     public int getEnergy() {
         return energy;
     }
-
+    
 
     public void setEnergy(int energy) {
         this.energy = energy;
