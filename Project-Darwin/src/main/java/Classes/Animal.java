@@ -1,14 +1,16 @@
 package Classes;
 
 import AbstractClasses.AbstractAnimal;
+
+
 import EnumClasses.MoveDirections;
 import Interfaces.PositionChangeObserver;
-
 import java.util.Objects;
 import java.util.Random;
 
 public class Animal extends AbstractAnimal {
     private int energy;
+
     private final int startEnergy;
     private int numberOfMoves;
     private int age;
@@ -88,6 +90,7 @@ public class Animal extends AbstractAnimal {
     public int getEnergy() {
         return energy;
     }
+
 
     public void setEnergy(int energy) {
         this.energy = energy;
@@ -239,6 +242,7 @@ public class Animal extends AbstractAnimal {
 
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -251,4 +255,5 @@ public class Animal extends AbstractAnimal {
     public int hashCode() {
         return Objects.hash(energy, startEnergy, numberOfMoves, age, paceOfAging, N, children);
     }
+
 }
