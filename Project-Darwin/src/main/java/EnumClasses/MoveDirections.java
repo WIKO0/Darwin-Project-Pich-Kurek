@@ -41,7 +41,7 @@ public enum MoveDirections {
         }
     }
 
-    public MoveDirections fromRadians(int n){
+    public static MoveDirections fromRadians(int n){
         switch (n) {
             case 0: return FORWARD;
             case 45: return FORWARD_RIGHT;

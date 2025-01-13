@@ -16,7 +16,7 @@ public abstract class AbstractAnimal implements MapElement {
     public void move(){
         int currRadians = direction.toRadians();
         int newRadians = (currRadians + genes.getCurrentGene() * 45) % 360;
-        direction = direction.fromRadians(newRadians);
+        direction = MoveDirections.fromRadians(newRadians);
 
         Vector2D vec = direction.toVector();
         Vector2D newPosition = position.add(vec);
@@ -31,13 +31,23 @@ public abstract class AbstractAnimal implements MapElement {
                newPosition.setX(borderLowerLeft.getX());
            }
            else{
-               direction = direction.fromRadians((direction.toRadians() + 180)%360);
+               direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
            }
         }
 
         genes.nextGene();
 
     }
+
+    // funkcja prawdopodobnie potrzebna tylko dla testów
+    public void setDirection(MoveDirections newDirection){
+        this.direction = newDirection;
+    }
+
+    public MoveDirections getDirection(){
+        return this.direction;
+    }
+
 
     public Vector2D getPosition() {
         return position;

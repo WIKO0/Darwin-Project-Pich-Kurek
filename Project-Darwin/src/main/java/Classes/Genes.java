@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Genes {
-    private ArrayList<Integer> genes = new ArrayList<Integer>();
+    private ArrayList<Integer> genes;
     private int size;
     private int currentGene;
 
     public Genes(int size) {
         this.size = size;
+        this.genes = new ArrayList<>();
         Random rand = new Random();
         for(int i = 0; i < size; i++) {
             genes.add(rand.nextInt(8));
@@ -17,8 +18,28 @@ public class Genes {
         this.currentGene = rand.nextInt(size);
     }
 
+    public Genes() {
+        this.genes = new ArrayList<>();
+        this.size = 0;
+        this.currentGene = 0;
+    }
+
     public int getSize() {
         return size;
+    }
+
+    public ArrayList<Integer> getGenes() {
+        return genes;
+    }
+
+    public void addGene(int gene) {
+        genes.add(gene);
+        size += 1;
+    }
+
+    public void setCurrentGene() {
+        Random rand = new Random();
+        this.currentGene = rand.nextInt(size);
     }
 
     public int getCurrentGene() {
