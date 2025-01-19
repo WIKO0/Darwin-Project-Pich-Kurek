@@ -13,7 +13,7 @@ public class World {
 
         Animal animal1 = new Animal(position1,size1,energy1,age1,pace1);
 
-
+        
         Vector2D position2 = new Vector2D(0,0);
         int size2 = 18;
         int energy2 = 100;
