@@ -48,13 +48,13 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void placeAnimals(int numberOfAnimals) {
-        for (int i = 0; i < numberOfAnimals; i++) {
-            Animal animal =  new Animal();
-            Vector2D position = new Vector2D(randomX(), randomY());
-            place(animal, position);
-        }
-    }
+//    public void placeAnimals(int numberOfAnimals) {
+//        for (int i = 0; i < numberOfAnimals; i++) {
+//            Animal animal =  new Animal();
+//            Vector2D position = new Vector2D(randomX(), randomY());
+//            place(animal, position);
+//        }
+//    }
 
     private int randomX() {
         return ThreadLocalRandom.current().nextInt(0, this.mapWidth);

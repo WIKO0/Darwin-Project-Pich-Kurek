@@ -4,6 +4,7 @@ import AbstractClasses.AbstractAnimal;
 
 
 import EnumClasses.MoveDirections;
+import Interfaces.MapElement;
 import Interfaces.PositionChangeObserver;
 import java.util.Objects;
 import java.util.Random;
@@ -61,6 +62,10 @@ public class Animal extends AbstractAnimal {
 
     public Genes getGenes(){
         return this.genes;
+    }
+
+    public boolean canEat(MapElement element){
+        return (element instanceof Grass) && this.position.equals(element.getPosition());
     }
 
     @Override
@@ -140,50 +145,49 @@ public class Animal extends AbstractAnimal {
     }
 
 
-    public Genes createOffspringGene(Animal mate){
-        Random rand = new Random();
-        int randomSide = rand.nextInt(2);
+    public Genes createOffspringGene(Animal mate, int randomNum){
         float energyRatioAnimal = (float) (this.energy) / (this.energy + mate.getEnergy());
-        float energyRatioMate = (float) (mate.getEnergy()) / (mate.getEnergy() + energyRatioAnimal);
+        float energyRatioMate = (float) (mate.getEnergy()) / (this.energy + mate.getEnergy());
         int n,m;
-        n = (int)(this.genes.getSize() * (energyRatioMate));
+        n = (int)(this.genes.getSize() * (energyRatioAnimal));
         m = (int)(mate.getGenes().getSize() * (energyRatioMate));
         int animalGenesSize = this.genes.getSize();
         int mateGenesSize = mate.getGenes().getSize();
         Genes newGenes = new Genes();
         if(this.energy > mate.getEnergy()){
-            if(randomSide == 0){
-                for (int i = 0; i < animalGenesSize; i++) {
+            if(randomNum == 0){
+                for (int i = 0; i < n; i++) {
                     newGenes.addGene(this.genes.getGenes().get(i));
                 };
-                for(int j = mateGenesSize; j >= 0; j--){
+
+                for(int j = (mateGenesSize-m); j< mateGenesSize; j++){
                     newGenes.addGene(mate.getGenes().getGenes().get(j));
                 }
             }
             else{
-                for(int i = animalGenesSize; i >= 0; i--){
+                for(int i = (animalGenesSize-n); i < animalGenesSize; i++){
                     newGenes.addGene(this.genes.getGenes().get(i));
                 }
-                for(int j = 0; j < mateGenesSize; j++){
+                for(int j = 0; j < m; j++){
                     newGenes.addGene(mate.getGenes().getGenes().get(j));
                 }
             }
         }
         else {
-            if (randomSide == 0) {
-                for (int i = animalGenesSize; i >= 0; i--) {
+            if (randomNum == 0) {
+                for (int i = (animalGenesSize-n); i < animalGenesSize; i++) {
                     newGenes.addGene(this.genes.getGenes().get(i));
                 }
-                for (int j = 0; j < mateGenesSize; j++) {
+                for (int j = 0; j < m; j++) {
                     newGenes.addGene(mate.getGenes().getGenes().get(j));
                 }
             } else {
-                if (randomSide == 0) {
-                    for (int i = 0; i < animalGenesSize; i++) {
+                if (randomNum == 0) {
+                    for (int i = 0; i < n; i++) {
                         newGenes.addGene(this.genes.getGenes().get(i));
                     }
                     ;
-                    for (int j = mateGenesSize; j >= 0; j--) {
+                    for (int j = (mateGenesSize-m); j< mateGenesSize; j++) {
                         newGenes.addGene(mate.getGenes().getGenes().get(j));
                     }
                 }
@@ -196,37 +200,12 @@ public class Animal extends AbstractAnimal {
 
 
     public Animal copulate(Animal mate){
-        int sumEnergy = energy + mate.getEnergy();
-        energy = energy/2;
         Random rand = new Random();
         int side = rand.nextInt(2);// 0 - lewa, 1 - prawa
-        Genes newGenes = new Genes();
-        if(energy > mate.getEnergy()){
-            int n;
-            int m;
-            if (side == 0){
-                n = genes.getSize() * (energy/sumEnergy);
-                for (int i = 0; i < n; i++) {
-                    newGenes.addGene(genes.getGenes().get(i));
-                }
-                m = mate.genes.getSize() - (mate.genes.getSize() * (mate.getEnergy()/sumEnergy));
-                for (int j = m; j < mate.genes.getSize(); j++) {
-                    newGenes.addGene(genes.getGenes().get(j));
-                }
-            }
-            else{
-                n = genes.getSize() - (genes.getSize() * (energy/sumEnergy));
-                for (int i = n; i < genes.getSize(); i++) {
-                    newGenes.addGene(genes.getGenes().get(i));
-                }
-                m = mate.genes.getSize() * (mate.getEnergy()/sumEnergy);
-                for (int j = 0; j < m; j++) {
-                    newGenes.addGene(genes.getGenes().get(j));
-                }
-            }
-        }
+        Genes newGenes = this.createOffspringGene(mate, side);
         mate.setEnergy(mate.getEnergy()/2);
-        children ++;
+        this.energy = this.energy/2;
+        this.children ++;
         mate.incrementChild();
         newGenes.setCurrentGene();
         return new Animal(position,energy,newGenes,paceOfAging);
@@ -242,6 +221,38 @@ public class Animal extends AbstractAnimal {
 
     }
 
+    @Override
+    public String toString() {
+        switch(this.direction){
+            case MoveDirections.FORWARD -> {
+                return "N";
+            }
+            case MoveDirections.BACKWARD -> {
+                return "S";
+            }
+            case MoveDirections.LEFT -> {
+                return "W";
+            }
+            case MoveDirections.RIGHT -> {
+                return "E";
+            }
+            case  MoveDirections.FORWARD_RIGHT -> {
+                return "NE";
+            }
+            case MoveDirections.BACKWARD_RIGHT -> {
+                return "SE";
+            }
+            case MoveDirections.BACKWARD_LEFT -> {
+                return "SW";
+            }
+            case MoveDirections.FORWARD_LEFT -> {
+                return "NW";
+            }
+            default -> {
+                return "";
+            }
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

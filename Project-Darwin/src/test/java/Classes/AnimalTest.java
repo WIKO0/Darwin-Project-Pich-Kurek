@@ -240,6 +240,89 @@ class AnimalTest {
 
     }
 
+    @Test
+    void testCreateOffSpringLength1(){
+        Vector2D position1 = new Vector2D(0,0);
+        int size1 = 9;
+        int energy1 = 200;
+        int age1 = 10;
+        int pace1 = 5;
+
+        Animal animal1 = new Animal(position1,size1,energy1,age1,pace1);
+
+
+        Vector2D position2 = new Vector2D(0,0);
+        int size2 = 9;
+        int energy2 = 100;
+        int age2 = 10;
+        int pace2 = 5;
+        Animal animal2 = new Animal(position2,size2,energy2,age2,pace2);
+
+        Genes kidGenes = animal1.createOffspringGene(animal2,0);
+        Genes kid2Genes = animal1.createOffspringGene(animal2,1);
+
+        assertEquals(9,kidGenes.getSize());
+        assertEquals(9,kid2Genes.getSize());
+    }
+
+    @Test
+    void testCreateOffSpringLength2(){
+        Vector2D position1 = new Vector2D(0,0);
+        int size1 = 9;
+        int energy1 = 200;
+        int age1 = 10;
+        int pace1 = 5;
+
+        Animal animal1 = new Animal(position1,size1,energy1,age1,pace1);
+
+
+        Vector2D position2 = new Vector2D(0,0);
+        int size2 = 18;
+        int energy2 = 100;
+        int age2 = 10;
+        int pace2 = 5;
+
+        Animal animal2 = new Animal(position2,size2,energy2,age2,pace2);
+
+        Genes kidGenes = animal1.createOffspringGene(animal2,0);
+        Genes kid2Genes = animal1.createOffspringGene(animal2,1);
+
+        assertEquals(12,kidGenes.getSize());
+        assertEquals(12,kid2Genes.getSize());
+
+    }
+
+    @Test
+    void testCreateOffSpringGenes(){
+        Vector2D position1 = new Vector2D(0,0);
+        int size1 = 9;
+        int energy1 = 200;
+        int age1 = 10;
+        int pace1 = 5;
+
+        Animal animal1 = new Animal(position1,size1,energy1,age1,pace1);
+
+
+        Vector2D position2 = new Vector2D(0,0);
+        int size2 = 18;
+        int energy2 = 100;
+        int age2 = 10;
+        int pace2 = 5;
+
+        Animal animal2 = new Animal(position2,size2,energy2,age2,pace2);
+
+        Genes kidGenes = animal1.createOffspringGene(animal2,0);
+
+        for(int i = 0; i < 6;i++){
+            assertEquals(kidGenes.getGenes().get(i), animal1.getGenes().getGenes().get(i));
+        }
+
+        for(int i = 6; i < 12;i++){
+            assertEquals(kidGenes.getGenes().get(i), animal2.getGenes().getGenes().get(i+6));
+        }
+
+    }
+
 
 
 }
