@@ -1,6 +1,7 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Genes {
@@ -53,4 +54,25 @@ public class Genes {
         currentGene+=1;
     }
 
+    @Override
+    public String toString() {
+        String result = "";
+        for(int i = 0; i < size; i++) {
+            result += genes.get(i).toString() + " ";
+        }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genes genes1 = (Genes) o;
+        return size == genes1.size && Objects.equals(genes, genes1.genes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(genes, size);
+    }
 }

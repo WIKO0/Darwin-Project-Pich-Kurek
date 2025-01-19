@@ -52,6 +52,7 @@ public abstract class AbstractMap implements WorldMap {
 
     }
 
+
     public void placeAnimals(int numberOfAnimals, int N, int energy, int age, int paceOfAging) {
         for (int i = 0; i < numberOfAnimals; i++) {
             Vector2D position = new Vector2D(randomX(), randomY());
@@ -59,6 +60,7 @@ public abstract class AbstractMap implements WorldMap {
             place(animal, position);
         }
     }
+
 
     @Override
     public void move(MapElement element, Vector2D position, Vector2D destination) {

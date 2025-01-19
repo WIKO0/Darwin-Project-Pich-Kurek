@@ -55,6 +55,7 @@ public enum MoveDirections {
         }
     }
 
+
     public MoveDirections OppositeDirection (MoveDirections direction) {
         switch (direction) {
             case BACKWARD: return FORWARD;
@@ -68,4 +69,5 @@ public enum MoveDirections {
             default: return null;
         }
     }
+
 }
