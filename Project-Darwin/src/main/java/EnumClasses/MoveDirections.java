@@ -41,7 +41,7 @@ public enum MoveDirections {
         }
     }
 
-    public MoveDirections fromRadians(int n){
+    public static MoveDirections fromRadians(int n){
         switch (n) {
             case 0: return FORWARD;
             case 45: return FORWARD_RIGHT;
@@ -54,4 +54,20 @@ public enum MoveDirections {
             default: return null;
         }
     }
+
+
+    public MoveDirections OppositeDirection (MoveDirections direction) {
+        switch (direction) {
+            case BACKWARD: return FORWARD;
+            case BACKWARD_LEFT: return FORWARD_RIGHT;
+            case LEFT: return RIGHT;
+            case FORWARD_LEFT: return BACKWARD_RIGHT;
+            case FORWARD: return BACKWARD;
+            case FORWARD_RIGHT: return BACKWARD_LEFT;
+            case RIGHT: return LEFT;
+            case BACKWARD_RIGHT: return FORWARD_LEFT;
+            default: return null;
+        }
+    }
+
 }
