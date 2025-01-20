@@ -208,7 +208,8 @@ public class Animal extends AbstractAnimal {
         this.children ++;
         mate.incrementChild();
         newGenes.setCurrentGene();
-        return new Animal(position,energy,newGenes,paceOfAging);
+        int childEnergy = this.energy + mate.getEnergy();
+        return new Animal(position,childEnergy,newGenes,paceOfAging);
     };
 
 
