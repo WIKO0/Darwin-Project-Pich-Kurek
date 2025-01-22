@@ -36,7 +36,9 @@ public interface WorldMap {
     Vector2D getRandomPosition();
 
     Vector2D getRandomGrassPosition();
-
+    public Vector2D getLowerLeft();
+    public Vector2D getUpperRight();
+    public MapElement getElement(Vector2D position);
 
 
 

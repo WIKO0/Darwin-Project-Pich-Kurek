@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.13'  // Dodanie pluginu javafx-gradle-plugin
 }
 
 group = 'org.example'
@@ -11,22 +12,30 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
-test {
-    useJUnitPlatform()
+application {
+    mainClass.set('org.example.MainApp')  // Upewnij się, że wskazujesz pełną ścieżkę do klasy głównej
 }
 
-application {
-    getMainClass().set('World')
+javafx {
+    version = "21"
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']  // Dodajemy wszystkie wymagane moduły
 }
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
     }
+}
+
+test {
+    useJUnitPlatform()
 }

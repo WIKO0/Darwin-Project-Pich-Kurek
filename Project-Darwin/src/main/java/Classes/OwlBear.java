@@ -65,4 +65,6 @@ public class OwlBear extends AbstractAnimal {
         return Objects.hash(position, direction, genes);
     }
 
+
+
 }

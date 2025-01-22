@@ -204,6 +204,18 @@ public abstract class AbstractMap implements WorldMap {
     public void setAnimalMap(Map<Vector2D, ArrayList<AbstractAnimal>> map) {
         this.animals = map;
     }
+
+    public Vector2D getLowerLeft(){
+        return this.lowerLeft;
+    }
+    public Vector2D getUpperRight(){
+        return this.upperRight;
+    }
+
+    @Override
+    public MapElement getElement(Vector2D position) {
+        return null;
+    }
 }
 
 

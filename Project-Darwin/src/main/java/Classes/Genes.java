@@ -42,21 +42,6 @@ public class Genes {
         Random rand = new Random();
         this.currentGene = rand.nextInt(size);
     }
-
-    public ArrayList<Integer> getGenes() {
-        return genes;
-    }
-
-    public void addGene(int gene) {
-        genes.add(gene);
-        size += 1;
-    }
-
-    public void setCurrentGene() {
-        Random rand = new Random();
-        this.currentGene = rand.nextInt(size);
-    }
-
     public int getCurrentGene() {
         return genes.get(currentGene);
     }
