@@ -1,4 +1,5 @@
 import Classes.*;
+import javafx.application.Application;
 
 public class World {
     public static void main(String[] args) {
@@ -27,6 +28,8 @@ public class World {
         System.out.println(animal2.getGenes().toString());
         System.out.println(kidGenes.toString());
         */
+
+        Application.launch(App.class, args);
 
         SimulationEngine engine = new SimulationEngine();
         Simulation simulation = new Simulation(10, 10, 20, 40, 6,
