@@ -267,12 +267,12 @@ public class SettingsPanel extends JPanel implements ActionListener {
                 Boolean.parseBoolean(includeOwlBear.getText()),
                 Boolean.parseBoolean(includeAging.getText())
         );
-        SimulationEngine engine = new SimulationEngine();
-        ConsoleDisplay console = new ConsoleDisplay();
-        simulation.registerObserver(console);
-        engine.addSimulation(simulation);
+//        SimulationEngine engine = new SimulationEngine();
+//        ConsoleDisplay console = new ConsoleDisplay();
+//        simulation.registerObserver(console);
+//        engine.addSimulation(simulation);
 
-//        MapSimulation mapSim = new MapSimulation(simulation);
-//        mapSim.startVisualization();
+        MapSimulation mapSim = new MapSimulation(simulation);
+        mapSim.startVisualization();
     }
 }

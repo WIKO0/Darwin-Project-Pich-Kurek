@@ -71,7 +71,7 @@ public class World {
 
             MenuSettings menu = new MenuSettings();
             menu.startSimulation(defaultMapProps, Upgrades);
-            JavaFXSimulationWindow.launchSimulation(null);
+
         }
         catch(IllegalArgumentException e){
             System.out.println(e);

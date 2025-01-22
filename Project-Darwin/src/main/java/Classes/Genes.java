@@ -56,15 +56,24 @@ public class Genes {
     }
 
     public void mutates(int min, int max) {
+        System.out.println(this.size);
+        System.out.println(this.genes.size());
+        if (this.size == 0) {
+            System.out.println("Genes array is empty, no mutations can occur.");
+            return;  // Prevent mutations if genes are empty.
+        }
+
+        System.out.println(this.size);
         int a = max - min + 1;
         Random rand = new Random();
         int nMutations = rand.nextInt(a) + min;
         ArrayList<Integer> unchangedGenes = new ArrayList<>();
-        for(int i = 0; i < this.size; i++) {
+        for (int i = 0; i < this.size; i++) {
             unchangedGenes.add(i);
         }
+
         int startLength = this.size;
-        for(int i = 0; i < Math.min(nMutations,startLength); i++) {
+        for (int i = 0; i < Math.min(nMutations, startLength); i++) {
             int randomIndex = rand.nextInt(unchangedGenes.size());
             int indexToMutate = unchangedGenes.get(randomIndex);
             this.genes.set(indexToMutate, rand.nextInt(8));
