@@ -1,5 +1,6 @@
 package util;
 
+import Classes.EarthWithOwlBear;
 import Classes.Vector2D;
 import Interfaces.WorldMap;
 
@@ -10,8 +11,8 @@ import Interfaces.WorldMap;
  * @author apohllo, idzik
  */
 public class MapVisualizer {
-    private static final String EMPTY_CELL = " ";
-    private static final String FRAME_SEGMENT = "-";
+    private static final String EMPTY_CELL = "   ";
+    private static final String FRAME_SEGMENT = "---";
     private static final String CELL_SEGMENT = "|";
     private final WorldMap map;
 
@@ -67,7 +68,16 @@ public class MapVisualizer {
         StringBuilder builder = new StringBuilder();
         builder.append(" y\\x ");
         for (int j = lowerLeft.getX(); j < upperRight.getX() + 1; j++) {
-            builder.append(String.format("%2d", j));
+            if (j<10) {
+                builder.append(String.format(" %2d ", j));
+            }
+            else if (j<100) {
+                builder.append(String.format(" %2d", j));
+            }
+            else {
+                builder.append(String.format("%2d", j));
+            }
+
         }
         builder.append(System.lineSeparator());
         return builder.toString();
@@ -77,21 +87,38 @@ public class MapVisualizer {
         int numberOfAnimals = this.map.NumberOfAnimalsAt(currentPosition);
         Integer number = (Integer) numberOfAnimals;
         String positionString;
-        if(map.isGrassOn(currentPosition)) {
-            if (numberOfAnimals > 0) {
-                positionString = number.toString();
+        if (this.map instanceof EarthWithOwlBear && ((EarthWithOwlBear) this.map).getOwlBearPosition().equals(currentPosition)) {
+            positionString = " X";
+            if(map.isGrassOn(currentPosition)) {
                 positionString += "*";
-                return positionString;
             }
             else {
-                positionString = "*";
+                positionString += " ";
+            }
+            return positionString;
+        }
+        else if(map.isGrassOn(currentPosition)) {
+            if (numberOfAnimals > 0) {
+                positionString = number.toString();
+                if (numberOfAnimals < 10) {
+
+                    return " " + positionString + "*";
+                }
+                else {
+                    positionString += "*";
+                    return positionString;
+                }
+
+            }
+            else {
+                positionString = " * ";
                 return positionString;
             }
         }
         else {
             if (numberOfAnimals > 0) {
                 positionString = number.toString();
-                return positionString;
+                return " " + positionString + " ";
             }
             else {
                 return EMPTY_CELL;

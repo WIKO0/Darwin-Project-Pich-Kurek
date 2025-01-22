@@ -1,9 +1,8 @@
-import Classes.Animal;
-import Classes.Genes;
-import Classes.Vector2D;
+import Classes.*;
 
 public class World {
     public static void main(String[] args) {
+        /*
         System.out.println("return 0");
         Vector2D position1 = new Vector2D(0,0);
         int size1 = 9;
@@ -27,5 +26,14 @@ public class World {
         System.out.println(animal1.getGenes().toString());
         System.out.println(animal2.getGenes().toString());
         System.out.println(kidGenes.toString());
+        */
+
+        SimulationEngine engine = new SimulationEngine();
+        Simulation simulation = new Simulation(10, 10, 20, 40, 6,
+                40, 10,1,10, 5, 25,
+                20, 0, 0, 1,true, true);
+        ConsoleDisplay consoleDisplay = new ConsoleDisplay();
+        simulation.registerObserver(consoleDisplay);
+        engine.addSimulation(simulation);
     }
 }
