@@ -55,6 +55,23 @@ public class Genes {
         currentGene+=1;
     }
 
+    public void mutates(int min, int max) {
+        int a = max - min + 1;
+        Random rand = new Random();
+        int nMutations = rand.nextInt(a) + min;
+        ArrayList<Integer> unchangedGenes = new ArrayList<>();
+        for(int i = 0; i < this.size; i++) {
+            unchangedGenes.add(i);
+        }
+        int startLength = this.size;
+        for(int i = 0; i < Math.min(nMutations,startLength); i++) {
+            int randomIndex = rand.nextInt(unchangedGenes.size());
+            int indexToMutate = unchangedGenes.get(randomIndex);
+            this.genes.set(indexToMutate, rand.nextInt(8));
+            unchangedGenes.remove(randomIndex);
+        }
+    }
+
     @Override
     public String toString() {
         String result = "";

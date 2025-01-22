@@ -19,8 +19,12 @@ public class Animal extends AbstractAnimal {
     private final int N;
     private int children;
     private int side;
+    private int minMutation;
+    private int maxMutation;
+    private int EnergyRequirment;
+    private int EnergyUsedToMate;
 
-    public Animal(Vector2D pos, int N, int energy,int age, int paceOfAging) {
+    public Animal(Vector2D pos, int N, int energy,int age, int paceOfAging,int minMutation,int maxMutation,int EnergyRequirment,int EnergyUsedToMate) {
         this.position = pos;
         this.N=N;
         Random rand = new Random();
@@ -32,9 +36,13 @@ public class Animal extends AbstractAnimal {
         this.startEnergy = energy;
         this.children = 0;
         this.age = age;
+        this.minMutation = minMutation;
+        this.maxMutation = maxMutation;
+        this.EnergyRequirment = EnergyRequirment;
+        this.EnergyUsedToMate = EnergyUsedToMate;
     }
 
-    public Animal(Vector2D pos, int energy, Genes parentsGenes, int paceOfAging) {
+    public Animal(Vector2D pos, int energy, Genes parentsGenes, int paceOfAging,int minMutation,int maxMutation,int EnergyRequirment,int EnergyUsedToMate) {
         this.position = pos;
         this.energy = energy;
         this.startEnergy = energy;
@@ -46,6 +54,10 @@ public class Animal extends AbstractAnimal {
         this.children = 0;
         Random rand = new Random();
         this.direction = MoveDirections.fromRadians(rand.nextInt(8) * 45);
+        this.minMutation = minMutation;
+        this.maxMutation = maxMutation;
+        this.EnergyRequirment = EnergyRequirment;
+        this.EnergyUsedToMate = EnergyUsedToMate;
     }
 
     public void incrementChild(){
@@ -106,7 +118,7 @@ public class Animal extends AbstractAnimal {
     }
 
     boolean canMate(){
-        if(this.energy >= this.startEnergy/2){
+        if(this.energy >= this.EnergyRequirment){
             return true;
         }
         return false;
@@ -203,13 +215,15 @@ public class Animal extends AbstractAnimal {
         Random rand = new Random();
         int side = rand.nextInt(2);// 0 - lewa, 1 - prawa
         Genes newGenes = this.createOffspringGene(mate, side);
-        mate.setEnergy(mate.getEnergy()/2);
-        this.energy = this.energy/2;
+        mate.setEnergy(Math.min(mate.getEnergy() - EnergyUsedToMate,0));
+        this.energy = Math.max(this.energy - EnergyUsedToMate,0);
         this.children ++;
         mate.incrementChild();
         newGenes.setCurrentGene();
         int childEnergy = this.energy + mate.getEnergy();
-        return new Animal(position,childEnergy,newGenes,paceOfAging);
+        Animal child = new Animal(position,childEnergy,newGenes,paceOfAging,this.minMutation,this.maxMutation,this.EnergyRequirment,this.EnergyUsedToMate);
+        child.getGenes().mutates(this.minMutation,this.maxMutation);
+        return child;
     };
 
 

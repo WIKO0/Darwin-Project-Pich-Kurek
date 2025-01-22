@@ -3,13 +3,14 @@ package Classes;
 import AbstractClasses.AbstractAnimal;
 import Interfaces.SimulationChangeListener;
 import Interfaces.WorldMap;
+import javafx.application.Platform;
 
 import java.util.*;
 
 import static java.util.Arrays.sort;
 
 public class Simulation implements Runnable {
-    final private WorldMap map;
+    private WorldMap map;
     private List<Animal> animalList = new ArrayList<>();
     private List<SimulationChangeListener> observers = new ArrayList<>();
     private int animalCount;
@@ -50,11 +51,9 @@ public class Simulation implements Runnable {
         else {
             this.gapTime = gapTime;
         }
-        if (spawnOwlBear) { // map with owlBear
-            this.map = new EarthWithOwlBear(height, width, numberOfGenes);
-        }
-        else { // map without owlBear
-            this.map = new Earth(height, width);
+        this.map = spawnOwlBear ? new EarthWithOwlBear(height, width, numberOfGenes) : new Earth(height, width);
+        if (this.map == null) {
+            throw new IllegalStateException("WorldMap is not initialized correctly.");
         }
 
         // simulation parameters
@@ -75,7 +74,7 @@ public class Simulation implements Runnable {
         // placing animals
         for (int i = 0; i < numberOfAnimals; i++) {
             Vector2D position = this.map.getRandomPosition();
-            Animal animal = new Animal(position, numberOfGenes, defaultEnergyLevel, defaultAge, paceOfAging);
+            Animal animal = new Animal(position, numberOfGenes, defaultEnergyLevel, defaultAge, paceOfAging,minMutations, maxMutations, minEnergyToMate,energyUsedToMate);
             map.place(animal, position);
             animalList.add(animal);
             animal.setBorder(this.map.getUpperRight(),this.map.getLowerLeft());
@@ -275,13 +274,23 @@ public class Simulation implements Runnable {
     }
 
     public void simulationChanged(String message) {
-        int observersSize = observers.size();
-        for (int i = 0; i < observersSize; i++) {
-            observers.get(i).simulationChanged(this, message);
-        }
+        Platform.runLater(() -> {
+            int observersSize = observers.size();
+            for (int i = 0; i < observersSize; i++) {
+                observers.get(i).simulationChanged(this, message);
+            }
+        });
     }
 
     public UUID getID () {
         return this.uuid;
+    }
+
+    public Boolean isOwlBearPresent(){return this.isOwlBearPresent;}
+    public WorldMap getWorldMap() {
+        if (this.map == null) {
+            throw new IllegalStateException("WorldMap is not initialized!");
+        }
+        return this.map;
     }
 }

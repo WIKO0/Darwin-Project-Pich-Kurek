@@ -1,5 +1,8 @@
 import Classes.*;
+import Menu.MenuSettings;
 import javafx.application.Application;
+
+import java.util.Properties;
 
 public class World {
     public static void main(String[] args) {
@@ -29,14 +32,51 @@ public class World {
         System.out.println(kidGenes.toString());
         */
 
-        Application.launch(App.class, args);
+//        Application.launch(App.class, args);
 
-        SimulationEngine engine = new SimulationEngine();
-        Simulation simulation = new Simulation(10, 10, 20, 40, 6,
-                40, 10,1,10, 5, 25,
-                20, 0, 0, 1,true, true);
-        ConsoleDisplay consoleDisplay = new ConsoleDisplay();
-        simulation.registerObserver(consoleDisplay);
-        engine.addSimulation(simulation);
+
+
+//        SimulationEngine engine = new SimulationEngine();
+//        Simulation simulation = new Simulation(10, 10, 20, 40, 6,
+//                40, 10,1,10, 5, 25,
+//                20, 0, 0, 1,true, true);
+//        ConsoleDisplay consoleDisplay = new ConsoleDisplay();
+//        simulation.registerObserver(consoleDisplay);
+//        engine.addSimulation(simulation);
+
+        try{
+            PropertiesValidator props = new PropertiesValidator();
+
+            Integer[] defaultMapProps = {
+                    props.getMapHeight(),
+                    props.getMapWidth(),
+                    props.getNAnimals(),
+                    props.getNGrass(),
+                    props.getNGenes(),
+                    props.getDefaultEnergy(),
+                    props.getDefaultAge(),
+                    props.getPaceOfAging(),
+                    props.getGrassEnergyGiven(),
+                    props.getGrassDailyGrowth(),
+                    props.getMinEnergyForCopulation(),
+                    props.getEnergyUsedToCopulate(),
+                    props.getMinMutations(),
+                    props.getMaxMutations(),
+                    props.getGapTime()
+            };
+            Boolean[] Upgrades = {
+                    props.isSpawnOwlBear(),
+                    props.isAgeIsHeavyBurden()
+            };
+
+            MenuSettings menu = new MenuSettings();
+            menu.startSimulation(defaultMapProps, Upgrades);
+            JavaFXSimulationWindow.launchSimulation(null);
+        }
+        catch(IllegalArgumentException e){
+            System.out.println(e);
+            return;
+        }
+
     }
 }

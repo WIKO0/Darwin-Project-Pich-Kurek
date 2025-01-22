@@ -5,6 +5,7 @@ import Classes.Grass;
 import Classes.OwlBear;
 import Classes.Vector2D;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -51,6 +52,8 @@ public interface WorldMap {
     Vector2D getUpperRight();
 
     Vector2D getLowerLeft();
+
+
 
 
 
