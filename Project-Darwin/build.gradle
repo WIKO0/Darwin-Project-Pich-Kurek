@@ -22,7 +22,7 @@ dependencies {
 }
 
 application {
-    mainClass.set('org.example.MainApp')  // Upewnij się, że wskazujesz pełną ścieżkę do klasy głównej
+    mainClass.set('World')  // Upewnij się, że wskazujesz pełną ścieżkę do klasy głównej
 }
 
 javafx {

@@ -6,6 +6,7 @@ import Classes.Vector2D;
 import Interfaces.MapElement;
 import Interfaces.PositionChangeObserver;
 import Interfaces.WorldMap;
+import util.MapVisualizer;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -60,6 +61,9 @@ public abstract class AbstractMap implements WorldMap {
             if (element instanceof AbstractAnimal) { // element is an animal
                 ArrayList<AbstractAnimal> animalsList = animals.get(position);
                 AbstractAnimal animal = (AbstractAnimal) element;
+                if (animalsList == null) {
+                    animalsList = new ArrayList<>();
+                }
                 animalsList.add(animal);
                 animals.put(position, animalsList);
             }
@@ -81,6 +85,15 @@ public abstract class AbstractMap implements WorldMap {
     }
     */
 
+    public boolean isJungle(Vector2D position) {
+        if (position.getY() >= this.jungleLowerBorder && position.getY() <= this.jungleUpperBorder) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     @Override
     public void move(MapElement element, Vector2D position, Vector2D destination) {
@@ -89,7 +102,13 @@ public abstract class AbstractMap implements WorldMap {
         if (isInBoundaries(destination)) {
             if (element instanceof AbstractAnimal) { // element is an animal
                 ArrayList<AbstractAnimal> animalsListOnPosition = animals.get(position);
+                if (animalsListOnPosition == null) {
+                    animalsListOnPosition = new ArrayList<>();
+                }
                 ArrayList<AbstractAnimal> animalsListOnDestination = animals.get(destination);
+                if (animalsListOnDestination == null) {
+                    animalsListOnDestination = new ArrayList<>();
+                }
                 AbstractAnimal animal = (AbstractAnimal) element;
                 animalsListOnPosition.remove(animal);
                 animalsListOnDestination.add(animal);
@@ -166,7 +185,7 @@ public abstract class AbstractMap implements WorldMap {
 
     private Vector2D getRandomJunglePosition() {
         int x = randomX();
-        int y = ThreadLocalRandom.current().nextInt(this.jungleLowerBorder, this.jungleUpperBorder);
+        int y = ThreadLocalRandom.current().nextInt(this.jungleLowerBorder, this.jungleUpperBorder + 1);
         return new Vector2D(x,y);
     }
 
@@ -175,14 +194,32 @@ public abstract class AbstractMap implements WorldMap {
         int random = ThreadLocalRandom.current().nextInt(0, 10);
         if (random > 7) {
             if (random == 8) {
-                return getRandomLowerSteppePosition();
+                Vector2D position = getRandomLowerSteppePosition();
+                int attempts = 0;
+                while (isGrassOn(position) && attempts < 10) {
+                    position = getRandomLowerSteppePosition();
+                    attempts++;
+                }
+                return position;
             }
             else { // random == 9
-                return getRandomUpperSteppePosition();
+                Vector2D position = getRandomUpperSteppePosition();
+                int attempts = 0;
+                while (isGrassOn(position) && attempts < 10) {
+                    position = getRandomUpperSteppePosition();
+                    attempts++;
+                }
+                return position;
             }
         }
         else {
-            return getRandomJunglePosition();
+            Vector2D position = getRandomJunglePosition();
+            int attempts = 0;
+            while (isGrassOn(position) && attempts < 10) {
+                position = getRandomJunglePosition();
+                attempts++;
+            }
+            return position;
         }
     }
 
@@ -194,7 +231,12 @@ public abstract class AbstractMap implements WorldMap {
     @Override
     public int NumberOfAnimalsAt(Vector2D position) {
         ArrayList<AbstractAnimal> animalsList = animals.get(position);
-        return animalsList.size();
+        if (animalsList == null) {
+            return 0;
+        }
+        else {
+            return animalsList.size();
+        }
     }
 
     public Map<Vector2D, ArrayList<AbstractAnimal>> getAnimalMap() {
@@ -205,16 +247,26 @@ public abstract class AbstractMap implements WorldMap {
         this.animals = map;
     }
 
-    public Vector2D getLowerLeft(){
-        return this.lowerLeft;
+    public Map<Vector2D, Grass> getGrassMap() {
+        return this.grasses;
     }
-    public Vector2D getUpperRight(){
-        return this.upperRight;
+
+    public void setGrassMap(Map<Vector2D, Grass> map) {
+        this.grasses = map;
     }
 
     @Override
-    public MapElement getElement(Vector2D position) {
-        return null;
+    public String toString() {
+        MapVisualizer mapVisualizer = new MapVisualizer(this);
+        return mapVisualizer.draw(this.lowerLeft, this.upperRight);
+    }
+
+    public Vector2D getUpperRight() {
+        return this.upperRight;
+    }
+
+    public Vector2D getLowerLeft() {
+        return this.lowerLeft;
     }
 }
 

@@ -59,4 +59,7 @@ public abstract class AbstractAnimal implements MapElement {
     }
 
 
+
+
+
 }

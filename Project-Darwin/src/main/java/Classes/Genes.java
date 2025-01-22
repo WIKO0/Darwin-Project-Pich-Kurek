@@ -40,9 +40,11 @@ public class Genes {
 
     public void setCurrentGene() {
         Random rand = new Random();
+        if (size == 0) {size++;};
         this.currentGene = rand.nextInt(size);
     }
     public int getCurrentGene() {
+        if(genes.size() <= currentGene) {return 0;}
         return genes.get(currentGene);
     }
 

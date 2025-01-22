@@ -1,9 +1,12 @@
 package Interfaces;
 
+import AbstractClasses.AbstractAnimal;
+import Classes.Grass;
 import Classes.OwlBear;
 import Classes.Vector2D;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface WorldMap {
 
@@ -36,9 +39,19 @@ public interface WorldMap {
     Vector2D getRandomPosition();
 
     Vector2D getRandomGrassPosition();
-    public Vector2D getLowerLeft();
-    public Vector2D getUpperRight();
-    public MapElement getElement(Vector2D position);
+
+    Map<Vector2D, Grass> getGrassMap();
+
+    Map<Vector2D, ArrayList<AbstractAnimal>> getAnimalMap();
+
+    void setAnimalMap(Map<Vector2D, ArrayList<AbstractAnimal>> animalMap);
+
+    void setGrassMap(Map<Vector2D, Grass> grassMap);
+
+    Vector2D getUpperRight();
+
+    Vector2D getLowerLeft();
+
 
 
 
