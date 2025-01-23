@@ -15,13 +15,14 @@ public class Simulation implements Runnable {
     private List<SimulationChangeListener> observers = new ArrayList<>();
     private int animalCount;
     private int grassCount;
-    /// private int freeFieldCount == wszystkie pola - zajete pola (height*width - animalMap.size()) // zakladajac że wolne pole oznacza pole bez zwierzaka
-    ///private Genes - lista najpopularniejszych genotypów
-    /// liczby wolnych pól,
-    /// najpopularniejszych genotypów,(top3???) - lub array z rankingiem
-    /// średniego poziomu energii dla żyjących zwierzaków,
-    /// średniej długości życia zwierzaków dla martwych zwierzaków (wartość uwzględnia wszystkie nieżyjące zwierzaki - od początku symulacji),
-    /// średniej liczby dzieci dla żyjących zwierzaków (wartość uwzględnia wszystkie powstałe zwierzaki, a nie tylko zwierzaki powstałe w danej epoce).
+    private int countDead;
+    private int countDeadAge;
+    private int unOccupied;
+    private int mostPopularGenome;
+    private int totalKids;
+    private int[] popularGenomes;
+    private int numberOfGenome;
+
     final private int numberOfGenes;
     final private int startingEnergyLevel;
     final private int startingAge;
@@ -70,6 +71,13 @@ public class Simulation implements Runnable {
         this.minimalNumberOfMutations = minMutations;
         this.maximalNumberOfMutations = maxMutations;
 
+        this.countDead = 0;
+        this.countDeadAge = 0;
+        this.unOccupied = 0;
+        this.mostPopularGenome = 0;
+        this.totalKids = 0;
+        this.popularGenomes = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        this.numberOfGenome = 0;
 
         // placing animals
         for (int i = 0; i < numberOfAnimals; i++) {
@@ -103,7 +111,12 @@ public class Simulation implements Runnable {
     @Override
     public void run() {
         while(true) {
-            //System.out.println("moving");
+
+            System.out.println("zmiany");
+            this.popularGenomes = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+            this.totalKids = 0;
+            this.numberOfGenome = 0;
+            System.out.println("moving");
             // moving animals
             int numberOfAnimals = this.animalList.size();
             for(int i = 0; i < numberOfAnimals; i++) {
@@ -121,9 +134,20 @@ public class Simulation implements Runnable {
                     energy--;
                     animal.setEnergy(energy);
                 }
+                this.totalKids += animal.getChildren();
+                animal.getGenes().updateMostPopularGenome(this.popularGenomes,1);
             }
 
-            //System.out.println("owlbear");
+
+            System.out.println("zmiany w genach");
+            for(int i = 0; i < this.popularGenomes.length; i++) {
+                if(this.numberOfGenome < this.popularGenomes[i]) {
+                    this.mostPopularGenome = i;
+                    this.numberOfGenome=this.popularGenomes[i];
+                }
+            }
+
+            System.out.println("owlbear");
             // owlBear part
             if (this.isOwlBearPresent) {
                 // moving owlBear
@@ -146,12 +170,16 @@ public class Simulation implements Runnable {
                 this.animalCount -= animalsListOnPositionNumber;
                 for(int i = 0; i < animalsListOnPositionNumber; i++) {
                     Animal deadAnimal = (Animal) animalsListOnPosition.get(i);
+                    this.countDeadAge += deadAnimal.getAge();
+                    this.totalKids -= deadAnimal.getChildren();
                     this.animalList.remove(deadAnimal);
+                    this.countDead ++;
+
                 }
                 // not needed because of killAll: earth.setAnimalMap(animalMap);
             }
 
-            //System.out.println("eating");
+            System.out.println("eating");
             // eating grass
             Map<Vector2D, Grass> grassMap = this.map.getGrassMap();
             Map<Vector2D, ArrayList<AbstractAnimal>> animalMap = this.map.getAnimalMap(); // used later too
@@ -187,7 +215,7 @@ public class Simulation implements Runnable {
             }
             this.map.setGrassMap(grassMap);
 
-            //System.out.println("mating");
+            System.out.println("mating");
             // mating
             CompareAnimals comparator = new CompareAnimals(); // also used in section: handling animals that starved to death
             animalMap.forEach( (key, value) -> {
@@ -216,7 +244,7 @@ public class Simulation implements Runnable {
             });
             this.map.setAnimalMap(animalMap); // update map
 
-            //System.out.println("growth");
+            System.out.println("growth");
             // grass growth
             for (int i = 0; i < grassDailyGrowth; i++) {
                 Vector2D grassPosition = this.map.getRandomGrassPosition();
@@ -227,7 +255,7 @@ public class Simulation implements Runnable {
             }
             this.map.setGrassMap(grassMap);
 
-            //System.out.println("handling");
+            System.out.println("handling");
             // handling animals that starved to death
             animalMap.forEach( (key, value) -> {
                 ArrayList<AbstractAnimal> positionAnimalList = animalMap.get(key);
@@ -236,10 +264,13 @@ public class Simulation implements Runnable {
                 for(int i = animalNumber - 1; i >= 0; i--) {
                     Animal animal = (Animal) positionAnimalList.get(i);
                     if(animal.getEnergy() <= 0) {
+                        this.countDeadAge += animal.getAge();
+                        this.totalKids -= animal.getChildren();
                         positionAnimalList.remove(animal);
                         animalMap.put(key, positionAnimalList);
                         this.animalList.remove(animal);
                         animalCount--;
+                        this.countDead ++;
                     }
                     else {
                         break;
@@ -250,6 +281,7 @@ public class Simulation implements Runnable {
 
             // Break before next iteration
             simulationChanged("");
+            System.out.println("Simulation finished.");
 
             try {
                 Thread.sleep(this.gapTime);
@@ -292,5 +324,27 @@ public class Simulation implements Runnable {
             throw new IllegalStateException("WorldMap is not initialized!");
         }
         return this.map;
+    }
+
+    public int getAverageDeathAge(){
+        if(this.countDead == 0){
+            return 0;
+        }
+        return this.countDeadAge/this.countDead;
+    }
+
+    public int getAnimalCount(){
+        return this.animalCount;
+    }
+
+    public int getGrassCount(){
+        return this.grassCount;
+    }
+
+    public int getMostPopularGenome() {
+        return mostPopularGenome;
+    }
+    public int getTotalKids(){
+        return this.totalKids;
     }
 }

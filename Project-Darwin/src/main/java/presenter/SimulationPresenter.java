@@ -37,6 +37,10 @@ public class SimulationPresenter implements SimulationChangeListener {
 
     @FXML private GridPane mapGrid;
     @FXML private GridPane inputGridPane;
+    @FXML private VBox infoBox;
+    @FXML private Label totalAnimalsLabel;
+    @FXML private Label averageAgeLabel;
+    @FXML private Label totalGrassLabel;
 
     public void setMap(WorldMap map) {
         this.map = map;
@@ -82,7 +86,7 @@ public class SimulationPresenter implements SimulationChangeListener {
             mapGrid.add(label, 0, i + 1);
         }
 
-        // Draw the grid with animals, grass and empty cells
+        // Draw the grid with animals, grass, and empty cells
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 Vector2D pos = new Vector2D(col, row);
@@ -142,11 +146,17 @@ public class SimulationPresenter implements SimulationChangeListener {
 
     @Override
     public void simulationChanged(Simulation simulation, String message) {
-        setMap(simulation.getWorldMap());
         Platform.runLater(() -> {
-            clearGrid();
             drawMap();
+            updateInfoBox(simulation);
         });
+    }
+
+    private void updateInfoBox(Simulation simulation) {
+        totalAnimalsLabel.setText("Total Animals: " + simulation.getAnimalCount());
+        averageAgeLabel.setText("Average Age: " + simulation.getAverageDeathAge());
+        totalGrassLabel.setText("Total Grass: " + simulation.getGrassCount());
+        // Dodaj dodatkowe aktualizacje, jeśli potrzebujesz więcej informacji
     }
 
     public void startSimulation() {
@@ -177,9 +187,10 @@ public class SimulationPresenter implements SimulationChangeListener {
 
             simulation.registerObserver(this);
 
-            // Hide input VBox and show mapGrid
+            // Hide input GridPane and show mapGrid and infoBox
             inputGridPane.setVisible(false);
             mapGrid.setVisible(true);
+            infoBox.setVisible(true);
 
             // Draw the map
             setMap(simulation.getWorldMap());

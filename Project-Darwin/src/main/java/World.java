@@ -13,41 +13,4 @@ public class World {
         }
 
     }
-
-//        try{
-//            PropertiesValidator props = new PropertiesValidator();
-//
-//            Integer[] defaultMapProps = {
-//                    props.getMapHeight(),
-//                    props.getMapWidth(),
-//                    props.getNAnimals(),
-//                    props.getNGrass(),
-//                    props.getNGenes(),
-//                    props.getDefaultEnergy(),
-//                    props.getDefaultAge(),
-//                    props.getPaceOfAging(),
-//                    props.getGrassEnergyGiven(),
-//                    props.getGrassDailyGrowth(),
-//                    props.getMinEnergyForCopulation(),
-//                    props.getEnergyUsedToCopulate(),
-//                    props.getMinMutations(),
-//                    props.getMaxMutations(),
-//                    props.getGapTime()
-//            };
-//            Boolean[] Upgrades = {
-//                    props.isSpawnOwlBear(),
-//                    props.isAgeIsHeavyBurden()
-//            };
-//
-//            MenuSettings menu = new MenuSettings();
-//            menu.startSimulation(defaultMapProps, Upgrades);
-//
-//
-//        }
-//        catch(IllegalArgumentException e){
-//            System.out.println(e);
-//            return;
-//        }
-//
-//    }
 }

@@ -102,4 +102,12 @@ public class Genes {
     public int hashCode() {
         return Objects.hash(genes, size);
     }
+
+    public void updateMostPopularGenome(int[] popularGenomes, int a) {
+        for (int i = 0; i < this.size; i++) {
+            System.out.println(i);
+             popularGenomes[this.genes.get(i)] += 1;
+        }
+    }
+
 }

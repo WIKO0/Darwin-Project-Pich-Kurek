@@ -4,8 +4,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -73,7 +75,7 @@
 
                 <!-- Row 15 -->
                 <Label text="Refresh rate:" GridPane.rowIndex="14" GridPane.columnIndex="0"/>
-                <TextField fx:id="gapTime" promptText="Enter refresh rate" text="1000" GridPane.rowIndex="14" GridPane.columnIndex="1"/>
+                <TextField fx:id="gapTime" promptText="Enter refresh rate" text="500" GridPane.rowIndex="14" GridPane.columnIndex="1"/>
 
                 <!-- Row 16 -->
                 <Label text="Include Owl bear?:" GridPane.rowIndex="15" GridPane.columnIndex="0"/>
@@ -90,4 +92,13 @@
             <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" visible="false"/>
         </StackPane>
     </center>
+    <bottom>
+        <VBox fx:id="infoBox" alignment="CENTER" visible="false">
+            <Label text="Simulation Information" styleClass="info-title"/>
+            <Label fx:id="totalAnimalsLabel" text="Total Animals: 0" styleClass="info-label"/>
+            <Label fx:id="averageAgeLabel" text="Average Age: 0" styleClass="info-label"/>
+            <Label fx:id="totalGrassLabel" text="Total Grass: 0" styleClass="info-label"/>
+            <!-- Dodaj dodatkowe etykiety, jeśli potrzebujesz więcej informacji -->
+        </VBox>
+    </bottom>
 </BorderPane>
