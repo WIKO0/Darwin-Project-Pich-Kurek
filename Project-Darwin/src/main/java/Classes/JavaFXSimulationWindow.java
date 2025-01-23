@@ -12,9 +12,6 @@ public class JavaFXSimulationWindow extends Application {
     private WorldMap map;
     private Canvas canvas;
 
-    // Domyślny konstruktor
-    public JavaFXSimulationWindow() {}
-
     // Konstruktor z mapą
     public JavaFXSimulationWindow(WorldMap map) {
         this.map = map;
@@ -126,13 +123,13 @@ public class JavaFXSimulationWindow extends Application {
             throw new IllegalArgumentException("Map is null");
         }
 
-        // Tworzymy obiekt JavaFXSimulationWindow z mapą, ale nie wywołujemy launch() w tej metodzie
+        // Tworzymy obiekt JavaFXSimulationWindow z mapą
         JavaFXSimulationWindow window = new JavaFXSimulationWindow(map);
-        // Uruchamiamy aplikację JavaFX w metodzie main
+        // Uruchamiamy aplikację JavaFX, ale nie wywołujemy launch() tutaj
+        // Metoda main w klasie JavaFXSimulationWindow sama wywoła launch
     }
 
     public static void main(String[] args) {
-        // Uruchamiamy aplikację JavaFX
-        launch(args);
+        launch(args);  // Uruchamiamy aplikację JavaFX tylko raz w metodzie main
     }
 }

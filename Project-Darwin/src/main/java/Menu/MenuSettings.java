@@ -14,7 +14,11 @@ public class MenuSettings {
 
     public void startSimulation(Integer[] mapProperties, Boolean[] upgrades){
         frame.add(new SettingsPanel(mapProperties, upgrades));
-        frame.setVisible(true);
+
+        // Wywołanie metody w odpowiednim wątku, aby uruchomić okno menu
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            frame.setVisible(true);
+        });
     }
 
 }

@@ -2,7 +2,92 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
 
-<BorderPane xmlns="http://javafx.com/java">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@styles.css"
+            minHeight="550.0" minWidth="850.0"
+            fx:controller="presenter.SimulationPresenter">
+    <center>
+        <StackPane>
+            <GridPane fx:id="inputGridPane" hgap="10" vgap="10" alignment="CENTER">
+                <!-- Row 1 -->
+                <Label text="Map's Height:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="mapHeight" promptText="Enter map's Height" text="10" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
+                <!-- Row 2 -->
+                <Label text="Map's Width:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="mapWidth" promptText="Enter map's Width" text="10" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <!-- Row 3 -->
+                <Label text="Number of starting Animals:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="numberOfAnimals" promptText="Enter a number of starting Animals" text="8" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <!-- Row 4 -->
+                <Label text="Number of starting Grasses Fields:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="numberOfGrasses" promptText="Enter a number of starting Grasses Fields" text="5" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <!-- Row 5 -->
+                <Label text="Number of Genes each Animal will possess:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="numberOfGenes" promptText="Enter a number of Genes each Animal will possess" text="6" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <!-- Row 6 -->
+                <Label text="Default amount of Energy:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="defaultEnergy" promptText="Enter a default amount of Energy" text="100" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <!-- Row 7 -->
+                <Label text="Starting age of Spawning Animals:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <TextField fx:id="defaultAge" promptText="Enter a starting age of Spawning Animals" text="0" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <!-- Row 8 -->
+                <Label text="Pace of aging for Animals (n turns = 1 year):" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="paceOfAging" promptText="Enter a pace of aging for Animals (n turns = 1 year)" text="1" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                <!-- Row 9 -->
+                <Label text="Energy Gained from Consuming grass:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <TextField fx:id="grassEnergyGiven" promptText="Enter Energy Gained from Consuming grass" text="50" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                <!-- Row 10 -->
+                <Label text="Number of daily spawnings of grass fields:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <TextField fx:id="grassDailyGrowth" promptText="Enter number of daily spawnings of grass fields" text="2" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+                <!-- Row 11 -->
+                <Label text="Energy needed to copulate:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <TextField fx:id="minEnergyForCopulation" promptText="Enter a number of Energy needed to copulate" text="20" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+
+                <!-- Row 12 -->
+                <Label text="Energy used by copulation:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+                <TextField fx:id="energyUsedToCopulate" promptText="Enter energy used by copulation" text="10" GridPane.rowIndex="11" GridPane.columnIndex="1"/>
+
+                <!-- Row 13 -->
+                <Label text="Minimum number of mutations:" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
+                <TextField fx:id="minMutations" promptText="Enter minimum number of mutations" text="1" GridPane.rowIndex="12" GridPane.columnIndex="1"/>
+
+                <!-- Row 14 -->
+                <Label text="Maximum number of mutations:" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
+                <TextField fx:id="maxMutations" promptText="Enter maximum number of mutations" text="3" GridPane.rowIndex="13" GridPane.columnIndex="1"/>
+
+                <!-- Row 15 -->
+                <Label text="Refresh rate:" GridPane.rowIndex="14" GridPane.columnIndex="0"/>
+                <TextField fx:id="gapTime" promptText="Enter refresh rate" text="1000" GridPane.rowIndex="14" GridPane.columnIndex="1"/>
+
+                <!-- Row 16 -->
+                <Label text="Include Owl bear?:" GridPane.rowIndex="15" GridPane.columnIndex="0"/>
+                <TextField fx:id="spawnOwlBear" promptText="Include Owl bear?" text="true" GridPane.rowIndex="15" GridPane.columnIndex="1"/>
+
+                <!-- Row 17 -->
+                <Label text="Include Age is Heavy Burden?:" GridPane.rowIndex="16" GridPane.columnIndex="0"/>
+                <TextField fx:id="ageIsHeavyBurden" promptText="Include Age is Heavy Burden?" text="true" GridPane.rowIndex="16" GridPane.columnIndex="1"/>
+
+                <!-- Row 18 -->
+                <Button text="Start" onAction="#startSimulation" GridPane.rowIndex="17" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+            </GridPane>
+
+            <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" visible="false"/>
+        </StackPane>
+    </center>
 </BorderPane>

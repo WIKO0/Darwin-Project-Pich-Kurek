@@ -267,12 +267,12 @@ public class SettingsPanel extends JPanel implements ActionListener {
                 Boolean.parseBoolean(includeOwlBear.getText()),
                 Boolean.parseBoolean(includeAging.getText())
         );
-//        SimulationEngine engine = new SimulationEngine();
-//        ConsoleDisplay console = new ConsoleDisplay();
-//        simulation.registerObserver(console);
-//        engine.addSimulation(simulation);
 
-        MapSimulation mapSim = new MapSimulation(simulation);
-        mapSim.startVisualization();
+        // Upewniamy się, że uruchomienie symulacji i JavaFX odbędzie się w odpowiednim wątku
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            // Tworzymy obiekt MapSimulation i uruchamiamy wizualizację w wątku JavaFX
+            MapSimulation mapSim = new MapSimulation(simulation);
+            mapSim.startVisualization(); // Wywołujemy metodę, która uruchamia symulację
+        });
     }
 }
