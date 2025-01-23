@@ -1,0 +1,15 @@
+/* styles.css */
+.grid-cell {
+    -fx-border-color: black;
+    -fx-alignment: center;
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+}
+
+.grid-label {
+    -fx-alignment: center;
+    -fx-border-color: black;
+    -fx-background-color: lightgray;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
