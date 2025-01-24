@@ -23,13 +23,19 @@ public class OwlBear extends AbstractAnimal {
         int newRadians = (currRadians + this.genes.getCurrentGene() * 45) % 360;
         this.direction = MoveDirections.fromRadians(newRadians);
 
+        System.out.println("Owl Bear UpperRight: " + this.borderUpperRight);
+        System.out.println("Owl Bear LowerLeft: " + this.borderLowerLeft);
+
         Vector2D vec = this.direction.toVector();
         Vector2D newPosition = this.position.add(vec);
         if(newPosition.precedes(this.borderUpperRight) && newPosition.follows(this.borderLowerLeft)){
             this.position = newPosition;
         }
         else{
-            direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
+            Random rand = new Random();
+            int randomDirection = rand.nextInt(8);
+            this.direction = MoveDirections.fromRadians((randomDirection * 45) % 360);
+//            this.direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
         }
 
     }

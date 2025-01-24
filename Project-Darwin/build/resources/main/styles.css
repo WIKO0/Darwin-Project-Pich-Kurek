@@ -1,9 +1,10 @@
-/* styles.css */
 .grid-cell {
     -fx-border-color: black;
     -fx-alignment: center;
     -fx-min-width: 50px;
     -fx-min-height: 50px;
+    -fx-padding: 10px;
+    -fx-background-color: white;
 }
 
 .grid-label {
@@ -12,6 +13,16 @@
     -fx-background-color: lightgray;
     -fx-padding: 5px;
     -fx-font-size: 14px;
+}
+
+.animal-cell {
+    -fx-background-color: lightblue;
+    -fx-text-fill: black;
+}
+
+.grass-cell {
+    -fx-background-color: lightgreen;
+    -fx-text-fill: black;
 }
 
 .red-text {

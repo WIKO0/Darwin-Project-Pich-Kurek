@@ -41,6 +41,17 @@ public class Simulation implements Runnable {
     final private int gapTime;
     final private UUID uuid;
 
+    //Clicked Animal Stats
+    private Genes chosenGenes;
+    private int chosenCurrentGene;
+    private int chosenEnergy;
+    private int chosenGrassConsumed;
+    private int chosenKidNumber;
+    private int chosenDescendantNumber;
+    private int chosenAge;
+    private int chosenDeathDay;
+
+
     public Simulation(int height, int width, int numberOfAnimals, int numberOfGrass, int numberOfGenes,
                       int defaultEnergyLevel, int defaultAge, int paceOfAging, int grassEnergyValue,
                       int grassDailyGrowth, int minEnergyToMate, int energyUsedToMate, int minMutations,

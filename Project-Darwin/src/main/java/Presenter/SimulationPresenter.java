@@ -6,6 +6,7 @@ import Interfaces.WorldMap;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,7 +20,7 @@ public class SimulationPresenter implements SimulationChangeListener {
 
     @FXML private Button PlaySimulation;
     @FXML private Button PauseSimulation;
-    
+
     private WorldMap map;
 
     // Opcje w menu
@@ -50,6 +51,8 @@ public class SimulationPresenter implements SimulationChangeListener {
     @FXML private Label totalKidsLabel;
     @FXML private Label totalEnergyofLiving;
 
+    private boolean isStopped = false;
+
     int mapMaxWidth = 600;
     int mapMaxHeight = 400;
 
@@ -68,27 +71,37 @@ public class SimulationPresenter implements SimulationChangeListener {
     private void drawMap() {
         clearGrid(); // Clear the grid before drawing
 
-        int width = map.getUpperRight().getX();
-        int height = map.getUpperRight().getY();
+        int width = map.getUpperRight().getX() + 1;
+        int height = map.getUpperRight().getY() + 1;
 
-        int useHeight = Math.round(height/mapMaxHeight);
-        int useWidth = Math.round(width/mapMaxWidth);
+        // Get the window size and calculate the maximum cell size
+        double windowWidth = mapGrid.getScene().getWindow().getWidth();
+        double windowHeight = mapGrid.getScene().getWindow().getHeight();
+        double maxGridWidth = windowWidth * 0.5;
+        double maxGridHeight = windowHeight * 0.5;
+        double cellWidth = Math.min(maxGridWidth / width, maxGridHeight / height);
+        double cellHeight = Math.min(maxGridWidth / width, maxGridHeight / height);
 
-        mapGrid.getColumnConstraints().add(new ColumnConstraints(useWidth));
-        mapGrid.getRowConstraints().add(new RowConstraints(useHeight));
+        mapGrid.getColumnConstraints().add(new ColumnConstraints(cellWidth));
+        mapGrid.getRowConstraints().add(new RowConstraints(cellHeight));
 
         for (int i = 0; i <= width; i++) {
             ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(useWidth);
-            col.setMaxWidth(Double.MAX_VALUE / (width + 1));
+            col.setPrefWidth(cellWidth);
+            col.setMaxWidth(cellWidth);
             mapGrid.getColumnConstraints().add(col);
         }
         for (int i = 0; i <= height; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(useHeight);
-            row.setMaxHeight(Double.MAX_VALUE / (height + 1));
+            row.setPrefHeight(cellHeight);
+            row.setMaxHeight(cellHeight);
             mapGrid.getRowConstraints().add(row);
         }
+
+        // Set grid padding and spacing
+        mapGrid.setPadding(new Insets(10, 10, 10, 10));
+        mapGrid.setHgap(5);
+        mapGrid.setVgap(5);
 
         // Draw the grid with animals, grass, and empty cells
         for (int row = 0; row < height; row++) {
@@ -101,16 +114,21 @@ public class SimulationPresenter implements SimulationChangeListener {
 
                 if (map.isGrassOn(pos)) {
                     cellLabel.setText("*");
+                    cellLabel.getStyleClass().add("grass-cell");
                 }
                 if (animalCount > 0) {
                     cellLabel.setText(Integer.toString(animalCount));
+                    cellLabel.getStyleClass().add("animal-cell");
+                    if(this.isStopped){
+                        Button animalButton = new Button();
+                    }
                 }
                 if (map instanceof EarthWithOwlBear && ((EarthWithOwlBear) map).getOwlBearPosition().equals(pos)) {
                     cellLabel.setText("X");
                     cellLabel.getStyleClass().add("red-text");
                 }
 
-                mapGrid.add(cellLabel, col + 1, row + 1);
+                mapGrid.add(cellLabel, col, row);
             }
         }
 
@@ -237,6 +255,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         sim.setFlag();
         PauseSimulation.setVisible(false);
         PlaySimulation.setVisible(true);
+        this.isStopped = true;
 
     }
 
@@ -244,5 +263,6 @@ public class SimulationPresenter implements SimulationChangeListener {
         sim.setFlag();
         PauseSimulation.setVisible(true);
         PlaySimulation.setVisible(false);
+        this.isStopped = false;
     }
 }
