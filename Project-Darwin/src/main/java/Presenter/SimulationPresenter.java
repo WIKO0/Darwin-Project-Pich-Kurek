@@ -1,19 +1,25 @@
-package presenter;
+package Presenter;
 
-import Classes.EarthWithOwlBear;
-import Classes.Simulation;
-import Classes.SimulationEngine;
-import Classes.Vector2D;
+import Classes.*;
 import Interfaces.SimulationChangeListener;
 import Interfaces.WorldMap;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+;
 
 public class SimulationPresenter implements SimulationChangeListener {
+
+
+    @FXML private Button PlaySimulation;
+    @FXML private Button PauseSimulation;
+    
     private WorldMap map;
 
     // Opcje w menu
@@ -41,6 +47,13 @@ public class SimulationPresenter implements SimulationChangeListener {
     @FXML private Label totalAnimalsLabel;
     @FXML private Label averageAgeLabel;
     @FXML private Label totalGrassLabel;
+    @FXML private Label totalKidsLabel;
+    @FXML private Label totalEnergyofLiving;
+
+    int mapMaxWidth = 600;
+    int mapMaxHeight = 400;
+
+    private Simulation sim;
 
     public void setMap(WorldMap map) {
         this.map = map;
@@ -58,32 +71,23 @@ public class SimulationPresenter implements SimulationChangeListener {
         int width = map.getUpperRight().getX();
         int height = map.getUpperRight().getY();
 
-        // Set constraints for columns and rows
+        int useHeight = Math.round(height/mapMaxHeight);
+        int useWidth = Math.round(width/mapMaxWidth);
+
+        mapGrid.getColumnConstraints().add(new ColumnConstraints(useWidth));
+        mapGrid.getRowConstraints().add(new RowConstraints(useHeight));
+
         for (int i = 0; i <= width; i++) {
             ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(100.0 / (width + 1));
+            col.setPercentWidth(useWidth);
+            col.setMaxWidth(Double.MAX_VALUE / (width + 1));
             mapGrid.getColumnConstraints().add(col);
         }
         for (int i = 0; i <= height; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / (height + 1));
+            row.setPercentHeight(useHeight);
+            row.setMaxHeight(Double.MAX_VALUE / (height + 1));
             mapGrid.getRowConstraints().add(row);
-        }
-
-        // Add column numbers
-        for (int i = 0; i < width; i++) {
-            Label label = new Label(Integer.toString(i + 1));
-            label.getStyleClass().add("grid-label");
-            GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.add(label, i + 1, 0);
-        }
-
-        // Add row numbers
-        for (int i = 0; i < height; i++) {
-            Label label = new Label(Integer.toString(i + 1));
-            label.getStyleClass().add("grid-label");
-            GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.add(label, 0, i + 1);
         }
 
         // Draw the grid with animals, grass, and empty cells
@@ -97,10 +101,13 @@ public class SimulationPresenter implements SimulationChangeListener {
 
                 if (map.isGrassOn(pos)) {
                     cellLabel.setText("*");
-                } else if (animalCount > 0) {
+                }
+                if (animalCount > 0) {
                     cellLabel.setText(Integer.toString(animalCount));
-                } else if (map instanceof EarthWithOwlBear && ((EarthWithOwlBear) map).getOwlBearPosition().equals(pos)) {
+                }
+                if (map instanceof EarthWithOwlBear && ((EarthWithOwlBear) map).getOwlBearPosition().equals(pos)) {
                     cellLabel.setText("X");
+                    cellLabel.getStyleClass().add("red-text");
                 }
 
                 mapGrid.add(cellLabel, col + 1, row + 1);
@@ -156,7 +163,8 @@ public class SimulationPresenter implements SimulationChangeListener {
         totalAnimalsLabel.setText("Total Animals: " + simulation.getAnimalCount());
         averageAgeLabel.setText("Average Age: " + simulation.getAverageDeathAge());
         totalGrassLabel.setText("Total Grass: " + simulation.getGrassCount());
-        // Dodaj dodatkowe aktualizacje, jeśli potrzebujesz więcej informacji
+        totalEnergyofLiving.setText("Total Energy of living Animals: " + simulation.getEnergyOfLiving());
+        totalKidsLabel.setText("Total Kids: " + simulation.getTotalKids());
     }
 
     public void startSimulation() {
@@ -192,9 +200,18 @@ public class SimulationPresenter implements SimulationChangeListener {
             mapGrid.setVisible(true);
             infoBox.setVisible(true);
 
+            // Set constraints for mapGrid to occupy half of the window
+            mapGrid.setMaxWidth(Double.MAX_VALUE);
+            mapGrid.setMaxHeight(Double.MAX_VALUE);
+            mapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+            mapGrid.setPrefWidth(Region.USE_COMPUTED_SIZE * 0.5); // Half of the window width
+            mapGrid.setPrefHeight(Region.USE_COMPUTED_SIZE * 0.5); // Half of the window height
+
             // Draw the map
             setMap(simulation.getWorldMap());
             drawMap();
+
+            this.sim = simulation;
 
             // Start the simulation
             SimulationEngine engine = new SimulationEngine();
@@ -204,5 +221,28 @@ public class SimulationPresenter implements SimulationChangeListener {
         } catch (IllegalArgumentException e) {
             System.out.println("Validation Error: " + e.getMessage());
         }
+    }
+
+    public void startNewSimulation() {
+        SimulationApp simulationApp = new SimulationApp();
+        try {
+            simulationApp.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public void pauseSimulation() {
+        sim.setFlag();
+        PauseSimulation.setVisible(false);
+        PlaySimulation.setVisible(true);
+
+    }
+
+    public void playSimulation() {
+        sim.setFlag();
+        PauseSimulation.setVisible(true);
+        PlaySimulation.setVisible(false);
     }
 }

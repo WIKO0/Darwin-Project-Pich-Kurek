@@ -105,7 +105,7 @@ public class Genes {
 
     public void updateMostPopularGenome(int[] popularGenomes, int a) {
         for (int i = 0; i < this.size; i++) {
-            System.out.println(i);
+//            System.out.println(i);
              popularGenomes[this.genes.get(i)] += 1;
         }
     }

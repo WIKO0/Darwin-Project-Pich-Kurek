@@ -13,7 +13,7 @@
             xmlns:fx="http://javafx.com/fxml"
             stylesheets="@styles.css"
             minHeight="550.0" minWidth="850.0"
-            fx:controller="presenter.SimulationPresenter">
+            fx:controller="Presenter.SimulationPresenter">
     <center>
         <StackPane>
             <GridPane fx:id="inputGridPane" hgap="10" vgap="10" alignment="CENTER">
@@ -98,7 +98,12 @@
             <Label fx:id="totalAnimalsLabel" text="Total Animals: 0" styleClass="info-label"/>
             <Label fx:id="averageAgeLabel" text="Average Age: 0" styleClass="info-label"/>
             <Label fx:id="totalGrassLabel" text="Total Grass: 0" styleClass="info-label"/>
+            <Label fx:id="totalKidsLabel" text="Total Kids: 0" styleClass="info-label"/>
+            <Label fx:id="totalEnergyofLiving" text="Total Energy of living Animals: 0" styleClass="info-label"/>
             <!-- Dodaj dodatkowe etykiety, jeśli potrzebujesz więcej informacji -->
+            <Button text="New Simulation" onAction="#startNewSimulation"/>
+            <Button fx:id="PauseSimulation" text="Stop Simulation" onAction="#pauseSimulation" visible="true"/>
+            <Button fx:id="PlaySimulation" text="Start Simulation" onAction="#playSimulation" visible="false"/>
         </VBox>
     </bottom>
 </BorderPane>

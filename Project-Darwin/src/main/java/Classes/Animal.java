@@ -213,10 +213,10 @@ public class Animal extends AbstractAnimal {
 
     public Animal copulate(Animal mate){
         Random rand = new Random();
-        System.out.println("Geny rodzica 1: ");
-        System.out.println(this.genes.getGenes().size());
-        System.out.println("Geny rodzica 2: ");
-        System.out.println(mate.getGenes().getGenes().size());
+//        System.out.println("Geny rodzica 1: ");
+//        System.out.println(this.genes.getGenes().size());
+//        System.out.println("Geny rodzica 2: ");
+//        System.out.println(mate.getGenes().getGenes().size());
         int side = rand.nextInt(2);// 0 - lewa, 1 - prawa
         Genes newGenes = this.createOffspringGene(mate, side);
         mate.setEnergy(Math.min(mate.getEnergy() - EnergyUsedToMate,0));
@@ -226,8 +226,8 @@ public class Animal extends AbstractAnimal {
         newGenes.setCurrentGene();
         int childEnergy = this.energy + mate.getEnergy();
         Animal child = new Animal(position,childEnergy,newGenes,paceOfAging,this.minMutation,this.maxMutation,this.EnergyRequirment,this.EnergyUsedToMate);
-        System.out.println("geny dziecka: ");
-        System.out.println(child.getGenes().getGenes().size());
+//        System.out.println("geny dziecka: ");
+//        System.out.println(child.getGenes().getGenes().size());
         child.getGenes().mutates(this.minMutation,this.maxMutation);
 
         return child;

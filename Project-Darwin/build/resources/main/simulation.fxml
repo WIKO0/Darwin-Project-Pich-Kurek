@@ -5,7 +5,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="presenter.SimulationPresenter">
+            fx:controller="Presenter.SimulationPresenter">
     <center>
         <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER"/>
     </center>

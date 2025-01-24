@@ -13,3 +13,7 @@
     -fx-padding: 5px;
     -fx-font-size: 14px;
 }
+
+.red-text {
+    -fx-text-fill: red;
+}

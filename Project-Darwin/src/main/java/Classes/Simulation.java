@@ -22,6 +22,9 @@ public class Simulation implements Runnable {
     private int totalKids;
     private int[] popularGenomes;
     private int numberOfGenome;
+    private int EnergyOfLiving;
+
+    private boolean flag;
 
     final private int numberOfGenes;
     final private int startingEnergyLevel;
@@ -78,6 +81,8 @@ public class Simulation implements Runnable {
         this.totalKids = 0;
         this.popularGenomes = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
         this.numberOfGenome = 0;
+        this.EnergyOfLiving = 0;
+        this.flag = true;
 
         // placing animals
         for (int i = 0; i < numberOfAnimals; i++) {
@@ -110,13 +115,13 @@ public class Simulation implements Runnable {
 
     @Override
     public void run() {
-        while(true) {
-
-            System.out.println("zmiany");
+        while(flag) {
+            this.EnergyOfLiving = 0;
+//            System.out.println("zmiany");
             this.popularGenomes = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
             this.totalKids = 0;
             this.numberOfGenome = 0;
-            System.out.println("moving");
+//            System.out.println("moving");
             // moving animals
             int numberOfAnimals = this.animalList.size();
             for(int i = 0; i < numberOfAnimals; i++) {
@@ -136,10 +141,11 @@ public class Simulation implements Runnable {
                 }
                 this.totalKids += animal.getChildren();
                 animal.getGenes().updateMostPopularGenome(this.popularGenomes,1);
+                this.EnergyOfLiving += animal.getEnergy();
             }
 
 
-            System.out.println("zmiany w genach");
+//            System.out.println("zmiany w genach");
             for(int i = 0; i < this.popularGenomes.length; i++) {
                 if(this.numberOfGenome < this.popularGenomes[i]) {
                     this.mostPopularGenome = i;
@@ -147,15 +153,19 @@ public class Simulation implements Runnable {
                 }
             }
 
-            System.out.println("owlbear");
+//            System.out.println("owlbear");
             // owlBear part
             if (this.isOwlBearPresent) {
                 // moving owlBear
                 EarthWithOwlBear earth = (EarthWithOwlBear) this.map;
+//                System.out.println(earth.getOwlBear().getPosition());
                 OwlBear owlBear = earth.getOwlBear();
                 owlBear.move();
                 earth.setOwlBear(owlBear);
+//                System.out.println(earth.getOwlBear().getPosition());
+                System.out.println(owlBear.getGenes().getGenes());
                 // eating animals
+
                 Vector2D owlBearPosition = owlBear.getPosition();
                 Map<Vector2D, ArrayList<AbstractAnimal>> animalMap = earth.getAnimalMap();
                 ArrayList<AbstractAnimal> animalsListOnPosition = animalMap.get(owlBearPosition);
@@ -179,7 +189,7 @@ public class Simulation implements Runnable {
                 // not needed because of killAll: earth.setAnimalMap(animalMap);
             }
 
-            System.out.println("eating");
+//            System.out.println("eating");
             // eating grass
             Map<Vector2D, Grass> grassMap = this.map.getGrassMap();
             Map<Vector2D, ArrayList<AbstractAnimal>> animalMap = this.map.getAnimalMap(); // used later too
@@ -215,7 +225,7 @@ public class Simulation implements Runnable {
             }
             this.map.setGrassMap(grassMap);
 
-            System.out.println("mating");
+//            System.out.println("mating");
             // mating
             CompareAnimals comparator = new CompareAnimals(); // also used in section: handling animals that starved to death
             animalMap.forEach( (key, value) -> {
@@ -244,7 +254,7 @@ public class Simulation implements Runnable {
             });
             this.map.setAnimalMap(animalMap); // update map
 
-            System.out.println("growth");
+//            System.out.println("growth");
             // grass growth
             for (int i = 0; i < grassDailyGrowth; i++) {
                 Vector2D grassPosition = this.map.getRandomGrassPosition();
@@ -255,7 +265,7 @@ public class Simulation implements Runnable {
             }
             this.map.setGrassMap(grassMap);
 
-            System.out.println("handling");
+//            System.out.println("handling");
             // handling animals that starved to death
             animalMap.forEach( (key, value) -> {
                 ArrayList<AbstractAnimal> positionAnimalList = animalMap.get(key);
@@ -281,7 +291,7 @@ public class Simulation implements Runnable {
 
             // Break before next iteration
             simulationChanged("");
-            System.out.println("Simulation finished.");
+//            System.out.println("Simulation finished.");
 
             try {
                 Thread.sleep(this.gapTime);
@@ -347,4 +357,18 @@ public class Simulation implements Runnable {
     public int getTotalKids(){
         return this.totalKids;
     }
+
+    public int getEnergyOfLiving(){
+        return this.EnergyOfLiving/this.animalCount;
+    }
+
+    public void setFlag(){
+        if(this.flag){
+            this.flag = false;
+        }
+        else{
+            this.flag = true;
+        }
+    }
+
 }
