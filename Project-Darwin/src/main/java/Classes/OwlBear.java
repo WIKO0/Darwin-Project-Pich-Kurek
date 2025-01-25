@@ -20,17 +20,24 @@ public class OwlBear extends AbstractAnimal {
     @Override
     public void move() {
         int currRadians = direction.toRadians();
-        int newRadians = (currRadians + genes.getCurrentGene() * 45) % 360;
-        direction = MoveDirections.fromRadians(newRadians);
+        int newRadians = (currRadians + this.genes.getCurrentGene() * 45) % 360;
+        this.direction = MoveDirections.fromRadians(newRadians);
 
-        Vector2D vec = direction.toVector();
-        Vector2D newPosition = position.add(vec);
+        System.out.println("Owl Bear UpperRight: " + this.borderUpperRight);
+        System.out.println("Owl Bear LowerLeft: " + this.borderLowerLeft);
+
+        Vector2D vec = this.direction.toVector();
+        Vector2D newPosition = this.position.add(vec);
         if(newPosition.precedes(this.borderUpperRight) && newPosition.follows(this.borderLowerLeft)){
             this.position = newPosition;
         }
         else{
-            direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
+            Random rand = new Random();
+            int randomDirection = rand.nextInt(8);
+            this.direction = MoveDirections.fromRadians((randomDirection * 45) % 360);
+//            this.direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
         }
+
     }
 
     public boolean canEat(MapElement element){
@@ -64,5 +71,9 @@ public class OwlBear extends AbstractAnimal {
     public int hashCode() {
         return Objects.hash(position, direction, genes);
     }
+
+
+
+
 
 }

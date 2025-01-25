@@ -43,7 +43,6 @@ public class Genes {
         if (size == 0) {size++;};
         this.currentGene = rand.nextInt(size);
     }
-
     public int getCurrentGene() {
         if(genes.size() <= currentGene) {return 0;}
         return genes.get(currentGene);
@@ -54,6 +53,32 @@ public class Genes {
             currentGene = 0;
         };
         currentGene+=1;
+    }
+
+    public void mutates(int min, int max) {
+        System.out.println(this.size);
+        System.out.println(this.genes.size());
+        if (this.size == 0) {
+            System.out.println("Genes array is empty, no mutations can occur.");
+            return;  // Prevent mutations if genes are empty.
+        }
+
+        System.out.println(this.size);
+        int a = max - min + 1;
+        Random rand = new Random();
+        int nMutations = rand.nextInt(a) + min;
+        ArrayList<Integer> unchangedGenes = new ArrayList<>();
+        for (int i = 0; i < this.size; i++) {
+            unchangedGenes.add(i);
+        }
+
+        int startLength = this.size;
+        for (int i = 0; i < Math.min(nMutations, startLength); i++) {
+            int randomIndex = rand.nextInt(unchangedGenes.size());
+            int indexToMutate = unchangedGenes.get(randomIndex);
+            this.genes.set(indexToMutate, rand.nextInt(8));
+            unchangedGenes.remove(randomIndex);
+        }
     }
 
     @Override
@@ -77,4 +102,12 @@ public class Genes {
     public int hashCode() {
         return Objects.hash(genes, size);
     }
+
+    public void updateMostPopularGenome(int[] popularGenomes, int a) {
+        for (int i = 0; i < this.size; i++) {
+//            System.out.println(i);
+            popularGenomes[this.genes.get(i)] += 1;
+        }
+    }
+
 }
