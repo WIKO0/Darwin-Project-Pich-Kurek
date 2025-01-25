@@ -1,24 +1,28 @@
 package Presenter;
 
 import AbstractClasses.AbstractAnimal;
+import CSVMOMENT.CSVWriter;
 import Classes.*;
 import Interfaces.SimulationChangeListener;
 import Interfaces.WorldMap;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-;
+import java.io.IOException;
 
 public class SimulationPresenter implements SimulationChangeListener {
 
 
+    @FXML private CheckBox checkBoxSaveToCSVC;
     @FXML private Label chosenGenome;
     @FXML private Label chosenCurrentGene;
     @FXML private Label chosenEnergy;
@@ -65,8 +69,11 @@ public class SimulationPresenter implements SimulationChangeListener {
     private Animal chosenAnimal;
     private boolean isChosenALive = true;
 
-    int mapMaxWidth = 600;
-    int mapMaxHeight = 400;
+    private int mapMaxWidth = 600;
+    private int mapMaxHeight = 400;
+
+    private CSVWriter csvWriter;
+    private boolean saveToCSV = false;
 
     private Simulation sim;
 
@@ -224,6 +231,16 @@ public class SimulationPresenter implements SimulationChangeListener {
     public void simulationChanged(Simulation simulation, String message) {
         Platform.runLater(() -> {
             drawMap();
+            try {
+                csvWriter.writeStats(this.sim.getDays(),
+                        this.sim.getAnimalCount(),
+                        this.sim.getAverageDeathAge(),
+                        this.sim.getGrassCount(),
+                        this.sim.getTotalKids(),
+                        this.sim.getEnergyOfLiving());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             updateInfoBox(simulation);
             if(showAnimalStats){
                 updateChosenAnimalInfo();
@@ -259,14 +276,16 @@ public class SimulationPresenter implements SimulationChangeListener {
             int gap = Integer.parseInt(gapTime.getText());
             boolean spawnOBear = Boolean.parseBoolean(spawnOwlBear.getText());
             boolean ageIsBurden = Boolean.parseBoolean(ageIsHeavyBurden.getText());
-
             Simulation simulation = new Simulation(height, width, nAnimals,
                     nGrasses, nGenes, defEnergy, Age, pace, grassE, grassDGrowth,
                     minE, minEu, minMut, maxMut, gap, spawnOBear, ageIsBurden
             );
 
             simulation.registerObserver(this);
-
+            this.saveToCSV = checkBoxSaveToCSVC.isSelected();
+            if(this.saveToCSV){
+                setSaveToCSV();
+            }
             // Hide input GridPane and show mapGrid and infoBox
             inputGridPane.setVisible(false);
             mapGrid.setVisible(true);
@@ -312,6 +331,14 @@ public class SimulationPresenter implements SimulationChangeListener {
         PlaySimulation.setVisible(true);
         this.isStopped = true;
         drawMap();
+        try {
+            if (csvWriter != null) {
+                csvWriter.close();
+                csvWriter = null; // Ustawienie na null, aby wskazywać, że jest zamknięty
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void playSimulation() {
@@ -320,5 +347,25 @@ public class SimulationPresenter implements SimulationChangeListener {
         PauseSimulation.setVisible(true);
         PlaySimulation.setVisible(false);
         this.isStopped = false;
+
+        if (csvWriter == null && saveToCSV) {
+            setSaveToCSV(); // Ponowne otwarcie pliku
+        }
+    }
+
+    public void setSaveToCSV() {
+        try {
+            // Get the user's home directory
+            String userHome = System.getProperty("user.home");
+            // Create a default path to the Desktop
+            String defaultPath = userHome + "/Desktop/simulation_stats.csv";
+
+            this.csvWriter = new CSVWriter(defaultPath);
+
+            System.out.println("File saved to: " + defaultPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
