@@ -1,6 +1,7 @@
 package Interfaces;
 
 import AbstractClasses.AbstractAnimal;
+import Classes.Animal;
 import Classes.Grass;
 import Classes.OwlBear;
 import Classes.Vector2D;
@@ -52,6 +53,40 @@ public interface WorldMap {
     Vector2D getUpperRight();
 
     Vector2D getLowerLeft();
+
+    void setChosenOne(Animal animal);
+
+    void setChosenGenes();
+
+    void setChosenKids();
+
+    void setChosenEnergy();
+
+    void setChosenCurrentGene();
+
+    void setChosenGrassConsumed();
+
+    void setChosenAge();
+
+    void setChosenDeathDay(int age);
+
+    ArrayList<Integer> getChosenGenes();
+
+    int getChosenCurrentGene();
+
+    int getChosenEnergy();
+
+    int getChosenGrassConsumed();
+
+    int getChosenDescendantNumber();
+
+    int getChosenAge();
+
+    int getChosenDeathAge();
+
+
+
+
 
 
 

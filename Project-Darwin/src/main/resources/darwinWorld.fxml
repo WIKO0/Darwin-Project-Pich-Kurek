@@ -94,16 +94,28 @@
     </center>
     <bottom>
         <VBox fx:id="infoBox" alignment="CENTER" visible="false">
-            <Label text="Simulation Information" styleClass="info-title"/>
-            <Label fx:id="totalAnimalsLabel" text="Total Animals: 0" styleClass="info-label"/>
-            <Label fx:id="averageAgeLabel" text="Average Age: 0" styleClass="info-label"/>
-            <Label fx:id="totalGrassLabel" text="Total Grass: 0" styleClass="info-label"/>
-            <Label fx:id="totalKidsLabel" text="Total Kids: 0" styleClass="info-label"/>
-            <Label fx:id="totalEnergyofLiving" text="Total Energy of living Animals: 0" styleClass="info-label"/>
-            <!-- Dodaj dodatkowe etykiety, jeśli potrzebujesz więcej informacji -->
-            <Button text="New Simulation" onAction="#startNewSimulation"/>
-            <Button fx:id="PauseSimulation" text="Stop Simulation" onAction="#pauseSimulation" visible="true"/>
-            <Button fx:id="PlaySimulation" text="Start Simulation" onAction="#playSimulation" visible="false"/>
+            <VBox alignment="BOTTOM_LEFT">
+                <Label text="Simulation Information" styleClass="info-title"/>
+                <Label fx:id="totalAnimalsLabel" text="Total Animals: 0" styleClass="info-label"/>
+                <Label fx:id="averageAgeLabel" text="Average Age: 0" styleClass="info-label"/>
+                <Label fx:id="totalGrassLabel" text="Total Grass: 0" styleClass="info-label"/>
+                <Label fx:id="totalKidsLabel" text="Total Kids: 0" styleClass="info-label"/>
+                <Label fx:id="totalEnergyofLiving" text="Total Energy of living Animals: 0" styleClass="info-label"/>
+            </VBox>
+            <VBox alignment="CENTER">
+                <Button text="New Simulation" onAction="#startNewSimulation"/>
+                <Button fx:id="PauseSimulation" text="Stop Simulation" onAction="#pauseSimulation" visible="true"/>
+                <Button fx:id="PlaySimulation" text="Start Simulation" onAction="#playSimulation" visible="false"/>
+            </VBox>
+            <VBox fx:id="chosenOneInfo" alignment="BOTTOM_RIGHT" visible="false">
+                <Label fx:id="chosenGenome" text="Genome: "/>
+                <Label fx:id="chosenCurrentGene" text="Current Gene: "/>
+                <Label fx:id="chosenEnergy" text="Energy: "/>
+                <Label fx:id="chosenGrassEaten" text="Grass Eaten: "/>
+                <Label fx:id="chosenDescendants" text="Descendants: " />
+                <Label fx:id="chosenAge" text="Age: "/>
+                <Label fx:id="chosenDeathDay" text="Death day: "/>
+            </VBox>
         </VBox>
     </bottom>
 </BorderPane>

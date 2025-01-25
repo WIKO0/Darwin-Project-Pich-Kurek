@@ -1,6 +1,7 @@
 package AbstractClasses;
 
 import Classes.Animal;
+import Classes.Genes;
 import Classes.Grass;
 import Classes.Vector2D;
 import Interfaces.MapElement;
@@ -23,6 +24,17 @@ public abstract class AbstractMap implements WorldMap {
     protected final Vector2D upperRight;
     protected final int jungleLowerBorder; // borders belong to jungle
     protected final int jungleUpperBorder;
+
+
+    //Clicked Animal Stats
+    private Animal chosenOne;
+    private Genes chosenGenes;
+    private int chosenCurrentGene;
+    private int chosenEnergy;
+    private int chosenGrassConsumed;
+    private int chosenDescendantNumber;
+    private int chosenAge;
+    private int chosenDeathDay = -1;
 
     public AbstractMap(int mapHeight, int mapWidth) {
         if(mapHeight > 5 && mapWidth > 5) {
@@ -268,6 +280,76 @@ public abstract class AbstractMap implements WorldMap {
     public Vector2D getLowerLeft() {
         return this.lowerLeft;
     }
+
+
+    //staty dla zwierzola
+
+    public void setChosenOne(Animal animal){
+        this.chosenOne=animal;
+    }
+
+    public void setChosenGenes(){
+        this.chosenGenes =  this.chosenOne.getGenes();
+    }
+
+    public void setChosenKids(){
+        this.chosenDescendantNumber = this.chosenOne.getChildren();
+    }
+
+    public void setChosenEnergy(){
+        this.chosenEnergy = this.chosenOne.getEnergy();
+    }
+
+    public void setChosenCurrentGene(){
+        this.chosenCurrentGene = this.chosenOne.getGenes().getCurrentGene();
+    }
+
+    public void setChosenGrassConsumed(){
+        this.chosenGrassConsumed = this.chosenOne.getGrassEaten();
+    }
+
+    public void setChosenAge(){
+        this.chosenAge = this.chosenOne.getAge();
+    }
+
+    public void setChosenDeathDay(int age){
+        this.chosenDeathDay = age;
+    }
+
+    // getery dla statow zwierzola
+
+    public Animal getChosenOne(){
+        return this.chosenOne;
+    }
+
+    public ArrayList<Integer> getChosenGenes(){
+        return this.chosenGenes.getGenes();
+    }
+
+    public int getChosenDescendantNumber(){
+        return this.chosenDescendantNumber;
+    }
+
+    public int getChosenEnergy(){
+        return this.chosenEnergy;
+    }
+
+    public int getChosenCurrentGene(){
+        return this.chosenCurrentGene;
+    }
+
+    public int getChosenGrassConsumed(){
+        return this.chosenGrassConsumed;
+    }
+
+    public int getChosenAge(){
+        return this.chosenAge;
+    }
+
+    public int getChosenDeathAge(){
+        return this.chosenDeathDay;
+    }
+
 }
 
 

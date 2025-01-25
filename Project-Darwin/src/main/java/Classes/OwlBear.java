@@ -34,9 +34,9 @@ public class OwlBear extends AbstractAnimal {
         else{
             Random rand = new Random();
             int randomDirection = rand.nextInt(8);
-            this.direction = MoveDirections.fromRadians((randomDirection * 45) % 360);
-//            this.direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
+            this.direction = MoveDirections.fromRadians((direction.toRadians() + 180)%360);
         }
+        this.genes.nextGene();
 
     }
 

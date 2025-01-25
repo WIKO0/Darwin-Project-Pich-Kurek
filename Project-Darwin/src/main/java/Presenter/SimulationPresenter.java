@@ -1,5 +1,6 @@
 package Presenter;
 
+import AbstractClasses.AbstractAnimal;
 import Classes.*;
 import Interfaces.SimulationChangeListener;
 import Interfaces.WorldMap;
@@ -18,6 +19,14 @@ import javafx.stage.Stage;
 public class SimulationPresenter implements SimulationChangeListener {
 
 
+    @FXML private Label chosenGenome;
+    @FXML private Label chosenCurrentGene;
+    @FXML private Label chosenEnergy;
+    @FXML private Label chosenGrassEaten;
+    @FXML private Label chosenDescendants;
+    @FXML private Label chosenAge;
+    @FXML private Label chosenDeathDay;
+    @FXML private VBox chosenOneInfo;
     @FXML private Button PlaySimulation;
     @FXML private Button PauseSimulation;
 
@@ -52,6 +61,7 @@ public class SimulationPresenter implements SimulationChangeListener {
     @FXML private Label totalEnergyofLiving;
 
     private boolean isStopped = false;
+    private boolean showAnimalStats = false;
 
     int mapMaxWidth = 600;
     int mapMaxHeight = 400;
@@ -117,23 +127,51 @@ public class SimulationPresenter implements SimulationChangeListener {
                     cellLabel.getStyleClass().add("grass-cell");
                 }
                 if (animalCount > 0) {
-                    cellLabel.setText(Integer.toString(animalCount));
-                    cellLabel.getStyleClass().add("animal-cell");
-                    if(this.isStopped){
-                        Button animalButton = new Button();
+                    if (this.isStopped) {
+                        Button animalButton = new Button(Integer.toString(animalCount));
+                        animalButton.setOnAction(e -> showAnimalData(pos));
+                        mapGrid.add(animalButton, col, row);
+                    } else {
+                        cellLabel.setText(Integer.toString(animalCount));
+                        cellLabel.getStyleClass().add("animal-cell");
+                        mapGrid.add(cellLabel, col, row);
                     }
+                } else {
+                    mapGrid.add(cellLabel, col, row);
                 }
                 if (map instanceof EarthWithOwlBear && ((EarthWithOwlBear) map).getOwlBearPosition().equals(pos)) {
                     cellLabel.setText("X");
                     cellLabel.getStyleClass().add("red-text");
                 }
-
-                mapGrid.add(cellLabel, col, row);
             }
         }
 
         // Set grid lines visible
         mapGrid.setGridLinesVisible(true);
+    }
+
+    private void showAnimalData(Vector2D pos) {
+        map.setChosenOne( (Animal)map.getAnimalMap().get(pos).get(0) );
+        updateChosenAnimalInfo();
+        chosenOneInfo.setVisible(true);
+    }
+
+
+    private void updateChosenAnimalInfo(){
+        map.setChosenGenes();
+        map.setChosenKids();
+        map.setChosenEnergy();
+        map.setChosenCurrentGene();
+        map.setChosenGrassConsumed();
+        map.setChosenAge();
+        map.setChosenDeathDay(-1);
+        chosenGenome.setText("Genome: " + map.getChosenGenes());
+        chosenCurrentGene.setText("Current gene: " + map.getChosenCurrentGene());
+        chosenEnergy.setText("Energy: " + map.getChosenEnergy());
+        chosenGrassEaten.setText("Grass eaten:" + map.getChosenGrassConsumed());
+        chosenDescendants.setText("Descendants: " + map.getChosenDescendantNumber());
+        chosenAge.setText("Age: " + map.getChosenAge());
+        chosenDeathDay.setText("Death Day: " + map.getChosenDeathAge());
     }
 
     public void validateData() {
@@ -174,6 +212,9 @@ public class SimulationPresenter implements SimulationChangeListener {
         Platform.runLater(() -> {
             drawMap();
             updateInfoBox(simulation);
+            if(showAnimalStats){
+                updateChosenAnimalInfo();
+            }
         });
     }
 
@@ -253,14 +294,16 @@ public class SimulationPresenter implements SimulationChangeListener {
 
     public void pauseSimulation() {
         sim.setFlag();
+        System.out.println(sim.getFlag());
         PauseSimulation.setVisible(false);
         PlaySimulation.setVisible(true);
         this.isStopped = true;
-
+        drawMap();
     }
 
     public void playSimulation() {
         sim.setFlag();
+        System.out.println(sim.getFlag());
         PauseSimulation.setVisible(true);
         PlaySimulation.setVisible(false);
         this.isStopped = false;
