@@ -56,14 +56,14 @@ public class Genes {
     }
 
     public void mutates(int min, int max) {
-        System.out.println(this.size);
-        System.out.println(this.genes.size());
+//        System.out.println(this.size);
+//        System.out.println(this.genes.size());
         if (this.size == 0) {
             System.out.println("Genes array is empty, no mutations can occur.");
             return;  // Prevent mutations if genes are empty.
         }
 
-        System.out.println(this.size);
+//        System.out.println(this.size);
         int a = max - min + 1;
         Random rand = new Random();
         int nMutations = rand.nextInt(a) + min;

@@ -24,6 +24,7 @@ public class Animal extends AbstractAnimal {
     private int EnergyRequirment;
     private int EnergyUsedToMate;
     private int grassEaten;
+    private boolean isDead = false;
 
     public Animal(Vector2D pos, int N, int energy,int age, int paceOfAging,int minMutation,int maxMutation,int EnergyRequirment,int EnergyUsedToMate) {
         this.position = pos;
@@ -300,5 +301,11 @@ public class Animal extends AbstractAnimal {
     public int hashCode() {
         return Objects.hash(energy, startEnergy, numberOfMoves, age, paceOfAging, N, children);
     }
+
+    public boolean getIsDead(){
+        return this.isDead;
+    }
+
+    public void setIsDead(boolean isDead){ this.isDead = isDead;}
 
 }

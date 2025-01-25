@@ -36,6 +36,8 @@ public abstract class AbstractMap implements WorldMap {
     private int chosenAge;
     private int chosenDeathDay = -1;
 
+    private boolean isChosenDead = false;
+
     public AbstractMap(int mapHeight, int mapWidth) {
         if(mapHeight > 5 && mapWidth > 5) {
             this.mapHeight = mapHeight;

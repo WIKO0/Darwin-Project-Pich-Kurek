@@ -26,6 +26,9 @@ public class Simulation implements Runnable {
 
     private boolean flag;
 
+    //DNI ktorych jeszcze nie znamy
+    private int Days;
+
     final private int numberOfGenes;
     final private int startingEnergyLevel;
     final private int startingAge;
@@ -83,6 +86,7 @@ public class Simulation implements Runnable {
         this.numberOfGenome = 0;
         this.EnergyOfLiving = 0;
         this.flag = true;
+        this.Days = 0;
 
         // placing animals
         for (int i = 0; i < numberOfAnimals; i++) {
@@ -123,6 +127,7 @@ public class Simulation implements Runnable {
                 e.printStackTrace();
             }
             while(flag) {
+                this.Days ++;
                 this.EnergyOfLiving = 0;
 //            System.out.println("zmiany");
                 this.popularGenomes = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
@@ -170,7 +175,7 @@ public class Simulation implements Runnable {
                     owlBear.move();
                     earth.setOwlBear(owlBear);
 //                System.out.println(earth.getOwlBear().getPosition());
-                    System.out.println(owlBear.getGenes().getGenes());
+//                    System.out.println(owlBear.getGenes().getGenes());
                     // eating animals
 
                     Vector2D owlBearPosition = owlBear.getPosition();
@@ -183,16 +188,18 @@ public class Simulation implements Runnable {
                     else {
                         animalsListOnPositionNumber = animalsListOnPosition.size();
                     }
+
                     earth.killAll(owlBearPosition);
+
                     this.animalCount -= animalsListOnPositionNumber;
                     for(int i = 0; i < animalsListOnPositionNumber; i++) {
                         Animal deadAnimal = (Animal) animalsListOnPosition.get(i);
                         this.countDeadAge += deadAnimal.getAge();
-                        this.totalKids -= deadAnimal.getChildren();
                         this.animalList.remove(deadAnimal);
                         this.countDead ++;
 
                     }
+
                     // not needed because of killAll: earth.setAnimalMap(animalMap);
                 }
 
@@ -284,12 +291,12 @@ public class Simulation implements Runnable {
                         Animal animal = (Animal) positionAnimalList.get(i);
                         if(animal.getEnergy() <= 0) {
                             this.countDeadAge += animal.getAge();
-                            this.totalKids -= animal.getChildren();
                             positionAnimalList.remove(animal);
                             animalMap.put(key, positionAnimalList);
                             this.animalList.remove(animal);
                             animalCount--;
                             this.countDead ++;
+                            animal.setIsDead(true);
                         }
                         else {
                             break;
@@ -364,11 +371,17 @@ public class Simulation implements Runnable {
     public int getMostPopularGenome() {
         return mostPopularGenome;
     }
-    public int getTotalKids(){
-        return this.totalKids;
+    public double getTotalKids(){
+        if(this.animalCount == 0){
+            return 0.0;
+        }
+        return Math.round((double) this.totalKids / this.animalCount * 100.0) / 100.0;
     }
 
     public int getEnergyOfLiving(){
+        if(this.animalCount == 0){
+            return 0;
+        }
         return this.EnergyOfLiving/this.animalCount;
     }
 
@@ -384,5 +397,10 @@ public class Simulation implements Runnable {
             this.flag = true;
         }
     }
+
+    public int getDays(){
+        return this.Days;
+    }
+
 
 }

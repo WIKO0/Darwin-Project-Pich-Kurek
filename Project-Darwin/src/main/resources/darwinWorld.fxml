@@ -51,7 +51,7 @@
 
                 <!-- Row 9 -->
                 <Label text="Energy Gained from Consuming grass:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <TextField fx:id="grassEnergyGiven" promptText="Enter Energy Gained from Consuming grass" text="50" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <TextField fx:id="grassEnergyGiven" promptText="Enter Energy Gained from Consuming grass" text="20" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
                 <!-- Row 10 -->
                 <Label text="Number of daily spawnings of grass fields:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>

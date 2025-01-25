@@ -62,6 +62,8 @@ public class SimulationPresenter implements SimulationChangeListener {
 
     private boolean isStopped = false;
     private boolean showAnimalStats = false;
+    private Animal chosenAnimal;
+    private boolean isChosenALive = true;
 
     int mapMaxWidth = 600;
     int mapMaxHeight = 400;
@@ -151,9 +153,11 @@ public class SimulationPresenter implements SimulationChangeListener {
     }
 
     private void showAnimalData(Vector2D pos) {
+        this.chosenAnimal = ((Animal)map.getAnimalMap().get(pos).get(0));
         map.setChosenOne( (Animal)map.getAnimalMap().get(pos).get(0) );
         updateChosenAnimalInfo();
         chosenOneInfo.setVisible(true);
+        this.showAnimalStats = true;
     }
 
 
@@ -164,7 +168,16 @@ public class SimulationPresenter implements SimulationChangeListener {
         map.setChosenCurrentGene();
         map.setChosenGrassConsumed();
         map.setChosenAge();
-        map.setChosenDeathDay(-1);
+        if(this.isChosenALive)
+        {
+            System.out.println("Animal is dead:" + this.chosenAnimal.getIsDead());
+            if (this.chosenAnimal.getIsDead()) {
+                map.setChosenDeathDay(this.sim.getDays());
+                this.isChosenALive = false;
+            } else {
+                map.setChosenDeathDay(-1);
+            }
+        }
         chosenGenome.setText("Genome: " + map.getChosenGenes());
         chosenCurrentGene.setText("Current gene: " + map.getChosenCurrentGene());
         chosenEnergy.setText("Energy: " + map.getChosenEnergy());
