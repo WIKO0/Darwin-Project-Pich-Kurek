@@ -139,12 +139,15 @@ public class SimulationPresenter implements SimulationChangeListener {
                     if (this.isStopped) {
                         Button animalButton = new Button(Integer.toString(animalCount));
                         animalButton.setOnAction(e -> showAnimalData(pos));
+                        animalButton.getStyleClass().add("animal-cell");
                         mapGrid.add(animalButton, col, row);
                     } else {
                         cellLabel.setText(Integer.toString(animalCount));
                         cellLabel.getStyleClass().add("animal-cell");
                         mapGrid.add(cellLabel, col, row);
                     }
+
+
                 } else {
                     mapGrid.add(cellLabel, col, row);
                 }
@@ -231,19 +234,21 @@ public class SimulationPresenter implements SimulationChangeListener {
     public void simulationChanged(Simulation simulation, String message) {
         Platform.runLater(() -> {
             drawMap();
-            try {
-                csvWriter.writeStats(this.sim.getDays(),
-                        this.sim.getAnimalCount(),
-                        this.sim.getAverageDeathAge(),
-                        this.sim.getGrassCount(),
-                        this.sim.getTotalKids(),
-                        this.sim.getEnergyOfLiving());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             updateInfoBox(simulation);
-            if(showAnimalStats){
+            if (showAnimalStats) {
                 updateChosenAnimalInfo();
+            }
+            if(this.saveToCSV) {
+                try {
+                    csvWriter.writeStats(this.sim.getDays(),
+                            this.sim.getAnimalCount(),
+                            this.sim.getAverageDeathAge(),
+                            this.sim.getGrassCount(),
+                            this.sim.getTotalKids(),
+                            this.sim.getEnergyOfLiving());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
