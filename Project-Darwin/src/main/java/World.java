@@ -28,5 +28,6 @@ public class World {
         simulation.registerObserver(consoleDisplay);
         engine.addSimulation(simulation);
         */
+
     }
 }
