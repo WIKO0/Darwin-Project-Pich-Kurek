@@ -14,16 +14,107 @@
 <?import javafx.scene.layout.StackPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            minHeight="600.0" minWidth="900.0" maxHeight="700.0" maxWidth="1000.0" stylesheets="app.css"
+            minHeight="700.0" minWidth="1300.0" maxHeight="700.0" maxWidth="1500.0" stylesheets="app.css"
             fx:controller="Presenter.SimulationPresenter">
     <top>
 
     </top>
     <center>
         <StackPane>
-            <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" visible="false"/>
+            <VBox>
+                <HBox minHeight="100.0"/>
+                <HBox>
+                    <StackPane>
+
+                        <HBox>
+                            <VBox minHeight="100.0" minWidth="920.0"/>
+                            <VBox fx:id="infoBox" alignment="CENTER_LEFT" visible="false">
+                                <VBox>
+                                    <Label fx:id="infoTitle" text="Simulation Information" styleClass="info-title"/>
+                                    <HBox>
+                                        <VBox alignment="CENTER_LEFT">
+                                            <VBox fx:id="labelBox" minHeight="40.0">
+                                                <Label text="Simulation day: " styleClass="info-label"/>
+                                                <Label text="Total Animals: " styleClass="info-label"/>
+                                                <Label text="Average Age: " styleClass="info-label"/>
+                                                <Label text="Total Grass: " styleClass="info-label"/>
+                                                <Label text="Total Kids: " styleClass="info-label"/>
+                                                <Label text="Total Energy of living Animals: " styleClass="info-label"/>
+                                                <Label text="Most popular Genome: " styleClass="info-label"/>
+                                                <Label text="Number of unoccupied fields: " styleClass="info-label"/>
+                                                <!-- Dodaj dodatkowe etykiety, jeśli potrzebujesz więcej informacji -->
+                                            </VBox>
+                                        </VBox>
+                                        <VBox alignment="CENTER_RIGHT">
+                                            <VBox fx:id="labelBox" minHeight="40.0">
+                                                <Label fx:id="simulationDay" text="0" styleClass="info-label"/>
+                                                <Label fx:id="totalAnimalsLabel" text="0" styleClass="info-label"/>
+                                                <Label fx:id="averageAgeLabel" text="0" styleClass="info-label"/>
+                                                <Label fx:id="totalGrassLabel" text="0" styleClass="info-label"/>
+                                                <Label fx:id="totalKidsLabel" text="0" styleClass="info-label"/>
+                                                <Label fx:id="totalEnergyofLiving" text="0" styleClass="info-label"/>
+                                                <Label fx:id="topGenes" text="" styleClass="info-label"/>
+                                                <Label fx:id="unoccupiedFields" text="" styleClass="info-label"/>
+                                                <!-- Dodaj dodatkowe etykiety, jeśli potrzebujesz więcej informacji -->
+                                            </VBox>
+                                        </VBox>
+                                    </HBox>
+                                    <Label fx:id="infoTitle" text="" styleClass="info-title"/>
+                                    <Label fx:id="infoTitle" text="Selected Animal Statistics" styleClass="info-title"/>
+                                    <VBox fx:id="chosenOneInfo" visible="true">
+                                        <HBox>
+                                            <VBox fx:id="labelBox">
+                                                <Label text="Genome: "/>
+                                                <Label text="Current Gene: "/>
+                                                <Label text="Energy: "/>
+                                                <Label text="Grass Eaten: "/>
+                                                <Label text="Descendants: " />
+                                                <Label text="Age: "/>
+                                                <Label text="Death day: "/>
+                                            </VBox>
+                                            <VBox fx:id="labelBox">
+                                                <Label fx:id="chosenGenome" text="Animal not selected"/>
+                                                <Label fx:id="chosenCurrentGene" text="Animal not selected"/>
+                                                <Label fx:id="chosenEnergy" text="Animal not selected"/>
+                                                <Label fx:id="chosenGrassEaten" text="Animal not selected"/>
+                                                <Label fx:id="chosenDescendants" text="Animal not selected" />
+                                                <Label fx:id="chosenAge" text="Animal not selected"/>
+                                                <Label fx:id="chosenDeathDay" text="Animal not selected"/>
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                                <HBox  minHeight="35.0">
+                                    <StackPane>
+                                        <Button fx:id="PauseSimulation" text="Stop Simulation" onAction="#pauseSimulation" visible="true" />
+                                        <Button fx:id="PlaySimulation" text="Start Simulation" onAction="#playSimulation" visible="false"/>
+                                    </StackPane>
+                                </HBox>
+                                <HBox minHeight="35.0">
+                                    <Button text="Show the Jungle" onAction="#showJungle"/>
+                                </HBox>
+                                <HBox minHeight="35.0">
+                                    <Button text="Show the OwlBear territory" onAction="#showTerritory"/>
+                                </HBox>
+                                <HBox minHeight="35.0">
+                                    <Button text="Show most popular genes representants" onAction="#showGene" />
+                                </HBox>
+                                <HBox minHeight="35.0">
+                                    <Button text="New Simulation" onAction="#startNewSimulation"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" maxWidth="500.0" maxHeight="500.0">
+                            <GridPane fx:id="mapGrid" alignment="CENTER_LEFT" visible="false"/>
+                        </VBox>
+                    </StackPane>
+                </HBox>
+                <HBox minHeight="100.0"/>
+            </VBox>
+
 
             <VBox fx:id="inputBox">
+                <VBox minHeight="40.0"/>
                 <VBox fx:id = "titleBox">
                     <Label fx:id="infoLabel" text="Darwin Project" textAlignment="CENTER"/>
                     <Label fx:id="authorsLabel" text="Piotr Pich, Wiktor Kurek" textAlignment="CENTER"/>
@@ -143,6 +234,21 @@
                                             </HBox>
                                         </VBox>
                                     </HBox>
+                                    <HBox>
+                                        <VBox minWidth="10.0" maxWidth="10.0"/>
+                                        <VBox>
+                                            <HBox>
+                                                <Button fx:id="parameters1" onAction="#setParameters1" text="Set paramteres set 1" minHeight="40.0" />
+                                                <HBox minWidth="15.0"/>
+                                                <Button fx:id="parameters2" onAction="#setParameters2" text="Set paramteres set 2" minHeight="40.0" />
+                                            </HBox>
+                                            <HBox>
+                                                <Button fx:id="parameters3" onAction="#setParameters3" text="Set paramteres set 3" minHeight="40.0" />
+                                                <HBox minWidth="15.0"/>
+                                                <Button fx:id="parameters4" onAction="#setParameters4" text="Set paramteres set 4" minHeight="40.0" />
+                                            </HBox>
+                                        </VBox>
+                                    </HBox>
                                 </VBox>
                             </HBox>
                         </ScrollPane>
@@ -151,24 +257,18 @@
                 </HBox>
                 <VBox fx:id="bottomBox" minHeight="120.0">
                     <Button fx:id="startButton" onAction="#startSimulation" text="Start the Simulation" minHeight="50" minWidth="100"/>
+                    <HBox minHeight="5.0"></HBox>
+                    <CheckBox fx:id="checkBoxSaveToCSVC" text="Save to File" selected="false"/>
+                    <HBox minHeight="5.0"></HBox>
+                    <Label fx:id="errorMessage" visible="false"/>
                     <HBox minHeight="20.0"></HBox>
                 </VBox>
             </VBox>
+
         </StackPane>
     </center>
     <bottom>
-        <VBox fx:id="infoBox" alignment="CENTER" visible="false">
-            <Label text="Simulation Information" styleClass="info-title"/>
-            <Label fx:id="totalAnimalsLabel" text="Total Animals: 0" styleClass="info-label"/>
-            <Label fx:id="averageAgeLabel" text="Average Age: 0" styleClass="info-label"/>
-            <Label fx:id="totalGrassLabel" text="Total Grass: 0" styleClass="info-label"/>
-            <Label fx:id="totalKidsLabel" text="Total Kids: 0" styleClass="info-label"/>
-            <Label fx:id="totalEnergyofLiving" text="Total Energy of living Animals: 0" styleClass="info-label"/>
-            <!-- Dodaj dodatkowe etykiety, jeśli potrzebujesz więcej informacji -->
-            <Button text="New Simulation" onAction="#startNewSimulation"/>
-            <Button fx:id="PauseSimulation" text="Stop Simulation" onAction="#pauseSimulation" visible="true"/>
-            <Button fx:id="PlaySimulation" text="Start Simulation" onAction="#playSimulation" visible="false"/>
-        </VBox>
+
     </bottom>
 </BorderPane>
 

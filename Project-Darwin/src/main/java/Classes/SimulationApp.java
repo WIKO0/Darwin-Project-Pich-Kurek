@@ -22,7 +22,7 @@ public class SimulationApp extends Application {
         // Load the CSS file
         scene.getStylesheets().add(getClass().getResource("/app.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Simulation"); /// + get uuid
+        primaryStage.setTitle("Darwin Project");
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }

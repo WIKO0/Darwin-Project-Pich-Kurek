@@ -23,6 +23,8 @@ public class Animal extends AbstractAnimal {
     private int maxMutation;
     private int EnergyRequirment;
     private int EnergyUsedToMate;
+    private int grassEaten;
+    private boolean isDead = false;
 
     public Animal(Vector2D pos, int N, int energy,int age, int paceOfAging,int minMutation,int maxMutation,int EnergyRequirment,int EnergyUsedToMate) {
         this.position = pos;
@@ -40,6 +42,7 @@ public class Animal extends AbstractAnimal {
         this.maxMutation = maxMutation;
         this.EnergyRequirment = EnergyRequirment;
         this.EnergyUsedToMate = EnergyUsedToMate;
+        this.grassEaten = 0;
     }
 
     public Animal(Vector2D pos, int energy, Genes parentsGenes, int paceOfAging,int minMutation,int maxMutation,int EnergyRequirment,int EnergyUsedToMate) {
@@ -58,6 +61,7 @@ public class Animal extends AbstractAnimal {
         this.maxMutation = maxMutation;
         this.EnergyRequirment = EnergyRequirment;
         this.EnergyUsedToMate = EnergyUsedToMate;
+        this.grassEaten = 0;
     }
 
     public void incrementChild(){
@@ -276,6 +280,15 @@ public class Animal extends AbstractAnimal {
         }
     }
 
+    public void incrementGrassEaten(){
+        this.grassEaten += 1;
+    }
+
+    public int getGrassEaten(){
+        return this.grassEaten;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -288,5 +301,11 @@ public class Animal extends AbstractAnimal {
     public int hashCode() {
         return Objects.hash(energy, startEnergy, numberOfMoves, age, paceOfAging, N, children);
     }
+
+    public boolean getIsDead(){
+        return this.isDead;
+    }
+
+    public void setIsDead(boolean isDead){ this.isDead = isDead;}
 
 }

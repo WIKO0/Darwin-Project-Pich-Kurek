@@ -75,6 +75,13 @@ public class EarthWithOwlBear extends AbstractMap {
     }
 
     public void killAll(Vector2D position) {
+//        System.out.println("przed petla");
+        if(this.animals.get(position) != null) {
+            for(int i = 0; i < this.animals.get(position).size(); i++){
+                ((Animal)this.animals.get(position).get(i)).setIsDead(true);
+                //System.out.println("Zwierzak zabity od owl Beara: "+((Animal)this.animals.get(position).get(i)).getIsDead());
+            }
+        }
         this.animals.remove(position);
     }
 
@@ -84,5 +91,9 @@ public class EarthWithOwlBear extends AbstractMap {
 
     public Vector2D getOwlBearUpperRight() {
         return owlBearUpperRight;
+    }
+
+    public int getNumberOfUnoccupiedFields() {
+        return super.getNumberOfUnoccupiedFields() - 1;
     }
 }
