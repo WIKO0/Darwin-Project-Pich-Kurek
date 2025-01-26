@@ -1,0 +1,115 @@
+VBox {
+    -fx-alignment: center ;
+    -fx-padding: 10 ;
+}
+
+HBox{
+    -fx-alignment: center ;
+    -fx-padding: 2 ;
+}
+
+#mapGrid {
+    -fx-border-color: black;
+    -fx-cell-border-color: red;
+    -fx-alignment: center;
+}
+
+#infoLabel {
+    -fx-text-fill: darkgreen;
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+}
+
+#authorsLabel {
+    -fx-text-fill: forestgreen;
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+}
+
+#parametersLabel {
+    -fx-font-size: 18px;
+    -fx-alignment: center;
+}
+
+#labelBox {
+    -fx-alignment: right;
+}
+
+#scrollPaneBox {
+    -fx-border-color: rgba(0,0,0,0);
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+}
+
+#infoTitle {
+    -fx-font-size: 16px;
+}
+
+.grid-cell {
+
+    -fx-alignment: center;
+    -fx-padding: 0px;
+    -fx-background-color: lightgreen;
+    -fx-font-weight: bold;
+}
+
+.grid-label {
+    -fx-alignment: center;
+    -fx-border-color: black;
+    -fx-background-color: lightgray;
+    -fx-padding: 0px;
+    -fx-font-size: 14px;
+}
+
+.animal-cell {
+
+    -fx-background-color: lightblue;
+}
+
+.grass-cell {
+
+    -fx-background-color: green;
+    -fx-text-fill: darkgreen;
+}
+
+.animal-grass-cell {
+
+     -fx-background-color: darkgreen;
+
+}
+
+.owl-bear-cell {
+    -fx-text-fill: red;
+    -fx-background-color: rgba(101, 40, 0, 1);
+}
+
+.owl-bear-grass-cell {
+
+    -fx-text-fill: red;
+    -fx-background-color: darkgreen;
+}
+
+.jungle-territory-cell {
+     -fx-alignment: center;
+     -fx-padding: 0px;
+     -fx-background-color: purple;
+     -fx-font-weight: bold;
+}
+
+.jungle-cell {
+     -fx-alignment: center;
+     -fx-padding: 0px;
+     -fx-background-color: yellow;
+     -fx-font-weight: bold;
+}
+
+.territory-cell {
+     -fx-alignment: center;
+     -fx-padding: 0px;
+     -fx-background-color: pink;
+     -fx-font-weight: bold;
+}
+
+.gene-highlighted-cell {
+    -fx-background-color: gold;
+}
