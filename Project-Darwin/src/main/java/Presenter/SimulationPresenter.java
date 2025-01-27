@@ -192,7 +192,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         chosenCurrentGene.setText("Current gene: " + map.getChosenCurrentGene());
         chosenEnergy.setText("Energy: " + map.getChosenEnergy());
         chosenGrassEaten.setText("Grass eaten:" + map.getChosenGrassConsumed());
-        chosenDescendants.setText("Descendants: " + map.getChosenDescendantNumber());
+        chosenDescendants.setText("Kids: " + map.getChosenDescendantNumber());
         chosenAge.setText("Age: " + map.getChosenAge());
         chosenDeathDay.setText("Death Day: " + map.getChosenDeathAge());
     }
