@@ -633,7 +633,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         this.energyUsedToCopulate.setText("5");
         this.minMutations.setText("0");
         this.maxMutations.setText("1");
-        this.gapTime.setText("500");
+        this.gapTime.setText("200");
         this.spawnOwlBear.setSelected(true);
         this.ageIsHeavyBurden.setSelected(false);
     }
@@ -653,7 +653,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         this.energyUsedToCopulate.setText("5");
         this.minMutations.setText("0");
         this.maxMutations.setText("1");
-        this.gapTime.setText("500");
+        this.gapTime.setText("1000");
         this.spawnOwlBear.setSelected(true);
         this.ageIsHeavyBurden.setSelected(false);
     }
@@ -673,7 +673,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         this.energyUsedToCopulate.setText("5");
         this.minMutations.setText("0");
         this.maxMutations.setText("1");
-        this.gapTime.setText("500");
+        this.gapTime.setText("100");
         this.spawnOwlBear.setSelected(true);
         this.ageIsHeavyBurden.setSelected(false);
     }

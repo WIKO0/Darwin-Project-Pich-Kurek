@@ -129,6 +129,7 @@ public class Simulation implements Runnable {
 
     @Override
     public void run() {
+
         while(true){
             try {
                 Thread.sleep(100);
@@ -137,7 +138,88 @@ public class Simulation implements Runnable {
                 e.printStackTrace();
             }
             while(flag) {
-                ArrayList<Vector2D> keysToDelete = new ArrayList<>(); // when no one stands on the field
+                CompareAnimals comparator = new CompareAnimals();
+                ArrayList<Vector2D> keysToDelete = new ArrayList<>();
+                ArrayList<Vector2D> toDelete = new ArrayList<>();
+                Map<Vector2D, ArrayList<AbstractAnimal>> animalMap = this.map.getAnimalMap();
+
+                //            System.out.println("owlbear");
+                // owlBear part
+                if (this.isOwlBearPresent) {
+                    // moving owlBear
+                    EarthWithOwlBear earth = (EarthWithOwlBear) this.map;
+//                System.out.println(earth.getOwlBear().getPosition());
+                    OwlBear owlBear = earth.getOwlBear();
+                    owlBear.move();
+                    earth.setOwlBear(owlBear);
+//                System.out.println(earth.getOwlBear().getPosition());
+//                    System.out.println(owlBear.getGenes().getGenes());
+                    // eating animals
+
+                    Vector2D owlBearPosition = owlBear.getPosition();
+                    ArrayList<AbstractAnimal> animalsListOnPosition = animalMap.get(owlBearPosition);
+                    int animalsListOnPositionNumber;
+                    if (animalsListOnPosition == null) {
+                        animalsListOnPositionNumber = 0;
+                    }
+                    else {
+                        animalsListOnPositionNumber = animalsListOnPosition.size();
+                    }
+                    keysToDelete.add(owlBearPosition);
+                    earth.killAll(owlBearPosition);
+
+                    this.animalCount -= animalsListOnPositionNumber;
+                    for(int i = 0; i < animalsListOnPositionNumber; i++) {
+                        Animal deadAnimal = (Animal) animalsListOnPosition.get(i);
+                        removeFromGenesRanking(deadAnimal);
+                        this.countDeadAge += deadAnimal.getAge();
+                        this.animalList.remove(deadAnimal);
+                        this.countDead ++;
+
+                    }
+
+                    // not needed because of killAll: earth.setAnimalMap(animalMap);
+                }
+
+
+
+                //            System.out.println("handling");
+                // handling animals that starved to death
+
+
+
+                animalMap.forEach( (key, value) -> {
+                    ArrayList<AbstractAnimal> positionAnimalList = animalMap.get(key);
+                    int animalNumber = positionAnimalList.size();
+                    positionAnimalList.sort(comparator);
+                    for(int i = animalNumber - 1; i >= 0; i--) {
+                        Animal animal = (Animal) positionAnimalList.get(i);
+                        if(animal.getEnergy() <= 0) {
+                            this.countDeadAge += animal.getAge();
+                            positionAnimalList.remove(animal);
+                            animalMap.put(key, positionAnimalList);
+                            this.animalList.remove(animal);
+                            animalCount--;
+                            this.countDead ++;
+                            animal.setIsDead(true);
+                            removeFromGenesRanking(animal);
+                            if (positionAnimalList.isEmpty()) {
+                                toDelete.add(key);
+                            }
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                });
+                // deleting keys
+                for (int i = 0; i < keysToDelete.size(); i++) {
+                    animalMap.remove(i);
+                }
+
+
+
+                this.animalCount = 0;
                 this.Days ++;
                 this.EnergyOfLiving = 0;
 //            System.out.println("zmiany");
@@ -147,6 +229,7 @@ public class Simulation implements Runnable {
 //            System.out.println("moving");
                 // moving animals
                 int numberOfAnimals = this.animalList.size();
+                this.animalCount += numberOfAnimals;
                 for(int i = 0; i < numberOfAnimals; i++) {
                     Animal animal = this.animalList.get(i);
                     Vector2D position = animal.getPosition();
@@ -176,50 +259,10 @@ public class Simulation implements Runnable {
                     }
                 }
 
-//            System.out.println("owlbear");
-                // owlBear part
-                if (this.isOwlBearPresent) {
-                    // moving owlBear
-                    EarthWithOwlBear earth = (EarthWithOwlBear) this.map;
-//                System.out.println(earth.getOwlBear().getPosition());
-                    OwlBear owlBear = earth.getOwlBear();
-                    owlBear.move();
-                    earth.setOwlBear(owlBear);
-//                System.out.println(earth.getOwlBear().getPosition());
-//                    System.out.println(owlBear.getGenes().getGenes());
-                    // eating animals
-
-                    Vector2D owlBearPosition = owlBear.getPosition();
-                    Map<Vector2D, ArrayList<AbstractAnimal>> animalMap = earth.getAnimalMap();
-                    ArrayList<AbstractAnimal> animalsListOnPosition = animalMap.get(owlBearPosition);
-                    int animalsListOnPositionNumber;
-                    if (animalsListOnPosition == null) {
-                        animalsListOnPositionNumber = 0;
-                    }
-                    else {
-                        animalsListOnPositionNumber = animalsListOnPosition.size();
-                    }
-                    keysToDelete.add(owlBearPosition);
-                    earth.killAll(owlBearPosition);
-
-                    this.animalCount -= animalsListOnPositionNumber;
-                    for(int i = 0; i < animalsListOnPositionNumber; i++) {
-                        Animal deadAnimal = (Animal) animalsListOnPosition.get(i);
-                        removeFromGenesRanking(deadAnimal);
-                        this.countDeadAge += deadAnimal.getAge();
-                        this.animalList.remove(deadAnimal);
-                        this.countDead ++;
-
-                    }
-
-                    // not needed because of killAll: earth.setAnimalMap(animalMap);
-                }
 
 //            System.out.println("eating");
                 // eating grass
                 Map<Vector2D, Grass> grassMap = this.map.getGrassMap();
-                Map<Vector2D, ArrayList<AbstractAnimal>> animalMap = this.map.getAnimalMap(); // used later too
-                ArrayList<Vector2D> toDelete = new ArrayList<>();
                 grassMap.forEach( (key, value) -> {
                     ArrayList<AbstractAnimal> PositionAnimalList = animalMap.get(key);
                     int animalNumber;
@@ -255,7 +298,7 @@ public class Simulation implements Runnable {
 
 //            System.out.println("mating");
                 // mating
-                CompareAnimals comparator = new CompareAnimals(); // also used in section: handling animals that starved to death
+                 // also used in section: handling animals that starved to death
                 animalMap.forEach( (key, value) -> {
                     ArrayList<AbstractAnimal> positionAnimalList = animalMap.get(key);
                     int animalNumber = positionAnimalList.size();
@@ -271,7 +314,7 @@ public class Simulation implements Runnable {
                                     positionAnimalList.add(child);
                                     animalMap.put(key, positionAnimalList);
                                     this.animalList.add(child);
-                                    animalCount++;
+                                    this.animalCount++;
                                     child.setBorder(this.map.getUpperRight(),this.map.getLowerLeft());
                                 }
                                 else {
@@ -294,39 +337,7 @@ public class Simulation implements Runnable {
                 }
                 this.map.setGrassMap(grassMap);
 
-//            System.out.println("handling");
-                // handling animals that starved to death
 
-
-
-                animalMap.forEach( (key, value) -> {
-                    ArrayList<AbstractAnimal> positionAnimalList = animalMap.get(key);
-                    int animalNumber = positionAnimalList.size();
-                    positionAnimalList.sort(comparator);
-                    for(int i = animalNumber - 1; i >= 0; i--) {
-                        Animal animal = (Animal) positionAnimalList.get(i);
-                        if(animal.getEnergy() <= 0) {
-                            this.countDeadAge += animal.getAge();
-                            positionAnimalList.remove(animal);
-                            animalMap.put(key, positionAnimalList);
-                            this.animalList.remove(animal);
-                            animalCount--;
-                            this.countDead ++;
-                            animal.setIsDead(true);
-                            removeFromGenesRanking(animal);
-                            if (positionAnimalList.isEmpty()) {
-                                toDelete.add(key);
-                            }
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                });
-                // deleting keys
-                for (int i = 0; i < keysToDelete.size(); i++) {
-                    animalMap.remove(i);
-                }
 
 
 
