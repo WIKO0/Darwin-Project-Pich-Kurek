@@ -1,11 +1,9 @@
-import Classes.*;
-import View.App;
+import View.SimulationApp;
 import javafx.application.Application;
 
 public class World {
     public static void main(String[] args) {
         try {
-            SavedParameters save = new SavedParameters();
             Application.launch(SimulationApp.class, args);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

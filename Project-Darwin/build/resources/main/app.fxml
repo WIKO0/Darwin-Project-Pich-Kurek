@@ -38,7 +38,7 @@
                                                 <Label text="Total Animals: " styleClass="info-label"/>
                                                 <Label text="Average Age: " styleClass="info-label"/>
                                                 <Label text="Total Grass: " styleClass="info-label"/>
-                                                <Label text="Total Kids: " styleClass="info-label"/>
+                                                <Label text="Average number of children: " styleClass="info-label"/>
                                                 <Label text="Total Energy of living Animals: " styleClass="info-label"/>
                                                 <Label text="Most popular Genome: " styleClass="info-label"/>
                                                 <Label text="Number of unoccupied fields: " styleClass="info-label"/>
@@ -182,55 +182,55 @@
                                         </VBox >
                                         <VBox alignment="CENTER_LEFT">
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="mapHeight" promptText="Enter map's height" minWidth="400.0" text="10"/>
+                                                <TextField fx:id="mapHeight" promptText="Enter map's height" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="mapWidth" promptText="Enter map's width" minWidth="400.0" text="10"/>
+                                                <TextField fx:id="mapWidth" promptText="Enter map's width" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="numberOfAnimals" promptText="Enter a number of starting animals" minWidth="400.0" text="8"/>
+                                                <TextField fx:id="numberOfAnimals" promptText="Enter a number of starting animals" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="numberOfGrasses" promptText="Enter a number of starting grass bushes" minWidth="400.0" text="5"/>
+                                                <TextField fx:id="numberOfGrasses" promptText="Enter a number of starting grass bushes" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="numberOfGenes" promptText="Enter a number of genes each animal will posses" minWidth="400.0" text="6"/>
+                                                <TextField fx:id="numberOfGenes" promptText="Enter a number of genes each animal will posses" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="defaultEnergy" promptText="Enter default amount of energy" minWidth="400.0" text="100"/>
+                                                <TextField fx:id="defaultEnergy" promptText="Enter default amount of energy" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="defaultAge" promptText="Enter starting age of starting animals" minWidth="400.0" text="0"/>
+                                                <TextField fx:id="defaultAge" promptText="Enter starting age of starting animals" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="paceOfAging" promptText="Enter pace of aging for animals (where the given value = 1 year)" minWidth="400.0" text="1"/>
+                                                <TextField fx:id="paceOfAging" promptText="Enter pace of aging for animals (where the given value = 1 year)" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="grassEnergyGiven" promptText="Enter energy gained from consuming grass" minWidth="400.0" text="50"/>
+                                                <TextField fx:id="grassEnergyGiven" promptText="Enter energy gained from consuming grass" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="grassDailyGrowth" promptText="Enter number of new grass bushes growing everyday" minWidth="400.0" text="2"/>
+                                                <TextField fx:id="grassDailyGrowth" promptText="Enter number of new grass bushes growing everyday" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="minEnergyForCopulation" promptText="Enter the energy level needed to copulate" minWidth="400.0" text="20"/>
+                                                <TextField fx:id="minEnergyForCopulation" promptText="Enter the energy level needed to copulate" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="energyUsedToCopulate" promptText="Enter energy used for copulation" minWidth="400.0" text="10"/>
+                                                <TextField fx:id="energyUsedToCopulate" promptText="Enter energy used for copulation" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="minMutations" promptText="Enter minimum number of mutations" minWidth="400.0" text="1"/>
+                                                <TextField fx:id="minMutations" promptText="Enter minimum number of mutations" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="maxMutations" promptText="Enter maximum number of mutations" minWidth="400.0" text="3"/>
+                                                <TextField fx:id="maxMutations" promptText="Enter maximum number of mutations" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <TextField fx:id="gapTime" promptText="Enter refresh rate" minWidth="400.0" text="500"/>
+                                                <TextField fx:id="gapTime" promptText="Enter refresh rate" minWidth="400.0" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <CheckBox fx:id="spawnOwlBear" selected="true"/>
+                                                <CheckBox fx:id="spawnOwlBear" />
                                             </HBox>
                                             <HBox minHeight="40.0">
-                                                <CheckBox fx:id="ageIsHeavyBurden" selected="true"/>
+                                                <CheckBox fx:id="ageIsHeavyBurden" />
                                             </HBox>
                                         </VBox>
                                     </HBox>

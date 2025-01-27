@@ -140,11 +140,9 @@ public class Simulation implements Runnable {
                 ArrayList<Vector2D> keysToDelete = new ArrayList<>(); // when no one stands on the field
                 this.Days ++;
                 this.EnergyOfLiving = 0;
-//            System.out.println("zmiany");
                 this.popularGenomes = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
                 this.totalKids = 0;
                 this.numberOfGenome = 0;
-//            System.out.println("moving");
                 // moving animals
                 int numberOfAnimals = this.animalList.size();
                 for(int i = 0; i < numberOfAnimals; i++) {

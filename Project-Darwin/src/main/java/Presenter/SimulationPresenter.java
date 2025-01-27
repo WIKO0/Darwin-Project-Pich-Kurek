@@ -1,24 +1,18 @@
 package Presenter;
 
 
-import AbstractClasses.AbstractAnimal;
 import CSV.CSVWriter;
 import Classes.*;
 import Interfaces.SimulationChangeListener;
 import Interfaces.WorldMap;
+import View.SimulationApp;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -104,7 +98,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         mapGrid.getRowConstraints().clear();
     }
 
-    private void drawMap() {
+    private synchronized void drawMap() {
         clearGrid(); // Clear the grid before drawing
 
         int width = map.getUpperRight().getX() + 1;
@@ -265,32 +259,14 @@ public class SimulationPresenter implements SimulationChangeListener {
                         (pos.follows(map.getJungleLowerLeft()) &&
                         pos.precedes(map.getJungleUpperRight()))
                     ) {
-//                        cellLabel.setStyle(
-//                                "-fx-min-width: " + cellWidth + ";\n"
-//                                        + "-fx-min-height: " + cellHeight + ";\n"
-//                                        + "-fx-max-width: " + cellWidth + ";\n"
-//                                        + "-fx-max-height: " + cellHeight + ";\n"
-//                                        + "-fx-font-size: " + (cellHeight)*(3.0/5.0) + ";");
                         cellLabel.getStyleClass().add("jungle-territory-cell");
                     }
                     else if (pos.follows(((EarthWithOwlBear)map).getOwlBearLowerLeft()) &&
                             pos.precedes(((EarthWithOwlBear)map).getOwlBearUpperRight())) {
-//                        cellLabel.setStyle(
-//                                "-fx-min-width: " + cellWidth + ";\n"
-//                                        + "-fx-min-height: " + cellHeight + ";\n"
-//                                        + "-fx-max-width: " + cellWidth + ";\n"
-//                                        + "-fx-max-height: " + cellHeight + ";\n"
-//                                        + "-fx-font-size: " + (cellHeight)*(3.0/5.0) + ";");
                         cellLabel.getStyleClass().add("territory-cell");
                     }
                     else if ((pos.follows(map.getJungleLowerLeft()) &&
                             pos.precedes(map.getJungleUpperRight()))) {
-//                        cellLabel.setStyle(
-//                                "-fx-min-width: " + cellWidth + ";\n"
-//                                        + "-fx-min-height: " + cellHeight + ";\n"
-//                                        + "-fx-max-width: " + cellWidth + ";\n"
-//                                        + "-fx-max-height: " + cellHeight + ";\n"
-//                                        + "-fx-font-size: " + (cellHeight)*(3.0/5.0) + ";");
                         cellLabel.getStyleClass().add("jungle-cell");
                     }
 
@@ -298,24 +274,12 @@ public class SimulationPresenter implements SimulationChangeListener {
                 else if (jungleFlag) {
                     if ((pos.follows(map.getJungleLowerLeft()) &&
                             pos.precedes(map.getJungleUpperRight()))) {
-//                        cellLabel.setStyle(
-//                                "-fx-min-width: " + cellWidth + ";\n"
-//                                        + "-fx-min-height: " + cellHeight + ";\n"
-//                                        + "-fx-max-width: " + cellWidth + ";\n"
-//                                        + "-fx-max-height: " + cellHeight + ";\n"
-//                                        + "-fx-font-size: " + (cellHeight)*(3.0/5.0) + ";");
                         cellLabel.getStyleClass().add("jungle-cell");
                     }
                 }
                 else if (territoryFlag) {
                     if (pos.follows(((EarthWithOwlBear)map).getOwlBearLowerLeft()) &&
                             pos.precedes(((EarthWithOwlBear)map).getOwlBearUpperRight())) {
-//                        cellLabel.setStyle(
-//                                "-fx-min-width: " + cellWidth + ";\n"
-//                                        + "-fx-min-height: " + cellHeight + ";\n"
-//                                        + "-fx-max-width: " + cellWidth + ";\n"
-//                                        + "-fx-max-height: " + cellHeight + ";\n"
-//                                        + "-fx-font-size: " + (cellHeight)*(3.0/5.0) + ";");
                         cellLabel.getStyleClass().add("territory-cell");
                     }
                 }

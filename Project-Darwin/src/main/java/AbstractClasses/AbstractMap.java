@@ -115,7 +115,7 @@ public abstract class AbstractMap implements WorldMap {
 
 
     @Override
-    public void move(MapElement element, Vector2D position, Vector2D destination) {
+    public synchronized void move(MapElement element, Vector2D position, Vector2D destination) {
         int x = destination.getX();
         int y = destination.getY();
         if (isInBoundaries(destination)) {
