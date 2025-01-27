@@ -83,6 +83,8 @@ public class SimulationPresenter implements SimulationChangeListener {
     private boolean territoryFlag;
     private boolean highlightFlag;
 
+    private String CSVwriting = "Day; Total Animals; Average Age; Total Grass; Total Kids; Total Energy of Living Animals\n";
+
     //private SavedParameters save = ;
 
     int mapMaxWidth = 600;
@@ -411,6 +413,10 @@ public class SimulationPresenter implements SimulationChangeListener {
             throw new IllegalArgumentException("Refresh rate must be non-negative");
     }
 
+    private void writeToCVS(int daysCount, int countAnimals, int getAreageDeathAge, int grassCount, double kids, int energy){
+        this.CSVwriting += daysCount + "; " + countAnimals + "; " + getAreageDeathAge + "; " + grassCount + "; " + kids + "; " + energy + "\n";
+    }
+
     @Override
     public void simulationChanged(Simulation simulation, String message) {
         Platform.runLater(() -> {
@@ -422,6 +428,12 @@ public class SimulationPresenter implements SimulationChangeListener {
             if(this.saveToCSV) {
                 try {
                     csvWriter.writeStats(this.sim.getDays(),
+                            this.sim.getAnimalCount(),
+                            this.sim.getAverageDeathAge(),
+                            this.sim.getGrassCount(),
+                            this.sim.getTotalKids(),
+                            this.sim.getEnergyOfLiving());
+                    writeToCVS(this.sim.getDays(),
                             this.sim.getAnimalCount(),
                             this.sim.getAverageDeathAge(),
                             this.sim.getGrassCount(),
@@ -542,7 +554,7 @@ public class SimulationPresenter implements SimulationChangeListener {
         }
     }
 
-    public void playSimulation() {
+    public void playSimulation() throws IOException {
 
         sim.setFlag();
         PauseSimulation.setVisible(true);
@@ -551,6 +563,7 @@ public class SimulationPresenter implements SimulationChangeListener {
 
         if (csvWriter == null && saveToCSV) {
             setSaveToCSV(); // Ponowne otwarcie pliku
+            csvWriter.getWriter().write(CSVwriting);
         }
     }
 
