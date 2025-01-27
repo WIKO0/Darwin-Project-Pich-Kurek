@@ -23,4 +23,8 @@ public class CSVWriter {
     public void close() throws IOException {
         writer.close();
     }
+
+    public BufferedWriter getWriter() {
+        return this.writer;
+    }
 }
